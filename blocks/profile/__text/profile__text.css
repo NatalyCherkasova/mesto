@@ -1,0 +1,14 @@
+.profile__text {
+    color: #FFFFFF;
+    margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 294px;
+}
+
+@media screen and (max-width:767px) {
+    .profile__text {
+        max-width: 189px;
+    }
+}

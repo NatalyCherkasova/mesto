@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="о путешествиях">
+  <meta name="keywords" content="путешествия, новые места, новости в мире путешествий">
+  <meta name="author" content="Nataly Cherkasova">
+  <link rel="stylesheet" href="pages/index.css">
+  <title>Место</title>
+</head>
+<body class="page">
+  <div class="root">
+      <header class="header">
+        <img class="header__logo" src="images/Logo.svg" alt="Логотип">
+      </header>
+
+      <main class="content">
+          <section class="profile">
+            <img class="profile__avatar" src="images/Avatar.png" alt="Аватар_фото">
+            <div class="profile__info">
+              <div class="profile__name-cover">
+                <h1 class="profile__text profile__text_type_name">Жак-Ив Кусто</h1>
+                <button type="button" class="profile__edit-button"></button>
+              </div>
+              <p class="profile__text profile__text_type_ocupation">Исследователь океана</p>
+            </div>
+            <button type="button" class="profile__add-button"></button>
+          </section>
+
+          <section class="elements">
+            <ul class="elements__grid">
+              <li class="element">
+                <img class="element__image" src="images/Karachaevsk.png" alt="Карачаевск">
+                <div class="element__caption">
+                  <h2 class="element__title">Карачаевск</h2>
+                  <button type="button" class="element__like"></button>
+                </div>
+              </li>
+              <li class="element">
+                <img class="element__image" src="images/Elbrus.png" alt="Гора Эльбрус">
+                <div class="element__caption">
+                  <h2 class="element__title">Гора Эльбрус</h2>
+                  <button type="button" class="element__like"></button>
+                </div>
+              </li>
+              <li class="element">
+                <img class="element__image" src="images/Dombai.png" alt="Домбай">
+                <div class="element__caption">
+                  <h2 class="element__title">Домбай</h2>
+                  <button type="button" class="element__like"></button>
+                </div>
+              </li>
+              <li class="element">
+                <img class="element__image" src="images/Elbrus.png" alt="Гора Эльбрус">
+                <div class="element__caption">
+                  <h2 class="element__title">Гора Эльбрус</h2>
+                  <button type="button" class="element__like"></button>
+                </div>
+              </li>
+              <li class="element">
+                <img class="element__image" src="images/Dombai.png" alt="Домбай">
+                <div class="element__caption">
+                  <h2 class="element__title">Домбай</h2>
+                  <button type="button" class="element__like"></button>
+                </div>
+              </li>
+              <li class="element">
+                <img class="element__image" src="images/Karachaevsk.png" alt="Карачаево-Черкесск">
+                <div class="element__caption">
+                  <h2 class="element__title">Карачаево-Черкесск</h2>
+                  <button type="button" class="element__like"></button>
+                </div>
+              </li>
+            </ul>
+          </section>
+      </main>
+
+      <footer class="footer">
+        <p class="footer__copyright">&copy; 2022. Mesto Russia</p>
+      </footer>
+
+      <div class="popup">
+        <div class="popup__content">
+            <button type="button" class="popup__close"></button>
+            <h3 class="popup__title">Редактировать профиль</h3>
+            <form class="popup__form" name="profile-form">
+              <input type="text" name="profile-form-name" placeholder="Имя" class="popup__input popup__input_type_name">
+              <input type="text" name="profile-form-ocupation" placeholder="Вид деятельности" class="popup__input popup__input_type_ocupation">
+              <button type="submit" class="popup__button">Сохранить</button>
+            </form>
+        </div>
+      </div>
+  </div>
+<script src="scripts/index.js"></script>
+</body>
+</html>
