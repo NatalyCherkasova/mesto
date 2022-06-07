@@ -30,7 +30,7 @@
 
           <section class="elements">
             <ul class="elements__grid">
-              <li class="element">
+              <!-- <li class="element">
                 <img class="element__image" src="images/Karachaevsk.png" alt="Карачаевск">
                 <div class="element__caption">
                   <h2 class="element__title">Карачаевск</h2>
@@ -71,7 +71,7 @@
                   <h2 class="element__title">Карачаево-Черкесск</h2>
                   <button type="button" class="element__like"></button>
                 </div>
-              </li>
+              </li> -->
             </ul>
           </section>
       </main>
@@ -80,17 +80,40 @@
         <p class="footer__copyright">&copy; 2022. Mesto Russia</p>
       </footer>
 
-      <div class="popup">
+      <div class="popup popup_type_profile-form">
         <div class="popup__content">
-            <button type="button" class="popup__close"></button>
+            <button type="button" class="popup__close profile-form-close"></button>
             <h3 class="popup__title">Редактировать профиль</h3>
-            <form class="popup__form" name="profile-form">
+            <form class="popup__form profile-form" name="profile-form">
               <input type="text" name="profile-form-name" placeholder="Имя" class="popup__input popup__input_type_name">
               <input type="text" name="profile-form-ocupation" placeholder="Вид деятельности" class="popup__input popup__input_type_ocupation">
-              <button type="submit" class="popup__button">Сохранить</button>
+              <button type="submit" class="popup__button popup__button_type_profile-submit">Сохранить</button>
+            </form>
+        </div>
+      </div> -->
+
+      <div class="popup popup_type_adding-form">
+        <div class="popup__content">
+            <button type="button" class="popup__close adding-form-close"></button>
+            <h3 class="popup__title">Новое место</h3>
+            <form class="popup__form adding-form" name="adding-form">
+              <input type="text" name="profile-form-title" placeholder="Название" class="popup__input popup__input_type_title">
+              <input type="text" name="profile-form-address" placeholder="Ссылка на картинку" class="popup__input popup__input_type_address">
+              <button type="submit" class="popup__button popup__button_type_adding-submit">Создать</button>
             </form>
         </div>
       </div>
+
+      <template class="elements-template">
+        <li class ="element">
+          <img class="element__image" src="" alt="Домбай">
+          <button type="button" class="element__basket"></button>
+          <div class="element__caption">
+            <h2 class="element__title"></h2>
+            <button type="button" class="element__like"></button>
+          </div>
+        </li>
+      </template>
   </div>
 <script src="scripts/index.js"></script>
 </body>

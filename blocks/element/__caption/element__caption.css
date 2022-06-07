@@ -7,6 +7,7 @@
     padding: 25px 18px 25px 21px;
 }
 
+
 @media screen and (max-width:767px) {
     .element__caption {
         padding-top: 24px;
