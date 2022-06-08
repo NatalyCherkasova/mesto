@@ -8,10 +8,11 @@ const formElement = document.querySelector('.profile-form');
 
 const editProfileButton = document.querySelector('.profile__edit-button');
 const editAddButton = document.querySelector('.profile__add-button');
-// const editZoomButton = document.querySelector('.element__image');
 
 const closeProfileButton = document.querySelector('.profile-form-close');
 const closeAddingFormButton = document.querySelector('.adding-form-close');
+
+const closePictureFormButton = document.querySelector('.picture-close');
 
 const popups = document.querySelectorAll(".popup");
 
@@ -35,6 +36,10 @@ closeProfileButton.addEventListener('click', function() {
 
 closeAddingFormButton.addEventListener('click', function() {
   togglePopup(1);
+});
+
+closePictureFormButton.addEventListener('click', function() {
+  togglePopup(2);
 });
 
 formElement.addEventListener('submit', function(event) {
