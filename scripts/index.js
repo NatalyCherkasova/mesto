@@ -1,6 +1,3 @@
-const closeProfileButton = document.querySelector('.profile-form-close');
-const closeAddingFormButton = document.querySelector('.adding-form-close');
-
 const profileNameElement = document.querySelector('.profile__text_type_name');
 const nameFieldElement = document.querySelector('.popup__input_type_name');
 
@@ -11,6 +8,11 @@ const formElement = document.querySelector('.profile-form');
 
 const editProfileButton = document.querySelector('.profile__edit-button');
 const editAddButton = document.querySelector('.profile__add-button');
+// const editZoomButton = document.querySelector('.element__image');
+
+const closeProfileButton = document.querySelector('.profile-form-close');
+const closeAddingFormButton = document.querySelector('.adding-form-close');
+
 const popups = document.querySelectorAll(".popup");
 
 function togglePopup(index){
@@ -66,13 +68,15 @@ const initialCards = [
   {
     name: 'Байкал',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  },
+  }
 ];
+const ZoomedElement = document.querySelector('.popup__picture-cover');
+const popupPictureElement = document.querySelector('.popup__picture');
+const popupPictureCaptionElement = document.querySelector('.popup__caption');
 
 const elementTitleElement = document.querySelector('.element__title');
 const titleFieldElement = document.querySelector('.popup__input_type_title');
 
-const elementImageElement = document.querySelector('.element__image');
 const addressFieldElement = document.querySelector('.popup__input_type_address');
 
 const elementsGridElement = document.querySelector('.elements__grid');
@@ -82,17 +86,36 @@ const elementsTemplateElement = document.querySelector('.elements-template');
 const getElementByEvent = e => e.currentTarget.closest('.element');
 
 const createElement = (title, address) => {
-  const element = elementsTemplateElement.content
+  let element = elementsTemplateElement.content
   .querySelector('.element')
   .cloneNode(true);
 
   element.querySelector('.element__title').textContent = title;
   element.querySelector('.element__image').src = address;
 
+  element.querySelector('.element__like').addEventListener('click', function (e) {
+    const eventTarget = e.currentTarget;
+    eventTarget.classList.toggle('element__like_active');
+});
+
   element.querySelector('.element__basket').addEventListener('click', e => {
-    const element = getElementByEvent(e);
+    element = getElementByEvent(e);
 
     element.remove();
+
+  });
+
+  function zoomImagePopup(e) {
+  const currentElement = getElementByEvent(e);
+  popupPictureElement.src = currentElement.querySelector('.element__image').src;
+  popupPictureElement.alt = currentElement.querySelector('.element__title').textContent;
+  popupPictureCaptionElement.textContent = currentElement.querySelector('.element__title').textContent;
+}
+
+  element.querySelector('.element__image').addEventListener('click', e => {
+    // const eventTarget = e.currentTarget;
+    togglePopup(2);
+    zoomImagePopup(e);
   });
 
   return element;
@@ -119,22 +142,3 @@ const handleAddingSubmit = e => {
 
 elementsAddingElement.addEventListener('submit', handleAddingSubmit);
 
-
-
-
-
-
-// elementsAddingElement.addEventListener('submit', handleAddingSubmit, function(event) {
-//   event.preventDefault();
-//   // profileNameElement.textContent = nameFieldElement.value;
-//   // profileOcupationElement.textContent = ocupationFieldElement.value;
-//   togglePopup(1);
-// });
-
-// titleFieldElement.value = elementTitleElement.textContent;
-// formElement.addEventListener('submit', function(event) {
-//   event.preventDefault();
-//   profileNameElement.textContent = nameFieldElement.value;
-//   profileOcupationElement.textContent = ocupationFieldElement.value;
-//   togglePopup(1);
-// });
