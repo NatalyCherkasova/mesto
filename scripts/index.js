@@ -18,47 +18,6 @@ const popupProfileForm = document.querySelector('.popup_type_profile-form');
 const popupAddingForm = document.querySelector('.popup_type_adding-form');
 const popupPicture = document.querySelector('.popup_type_picture');
 
-function popupOpen(popup) {
-  popup.classList.add('popup_opened');
-}
-
-function popupCloses(popup) {
-  popup.classList.remove('popup_opened');
-}
-
-// function togglePopup(p) {
-//   p.classList.("popup_opened");
-// }
-
-editNewCardButton.addEventListener('click', function () {
-  popupOpen(popupAddingForm);
-});
-
-editProfileButton.addEventListener('click', function () {
-  popupOpen(popupProfileForm);
-  nameFieldElement.value = profileNameElement.textContent;
-  occupationFieldElement.value = profileOccupationElement.textContent;
-});
-
-closeProfileButton.addEventListener('click', function () {
-  popupCloses(popupProfileForm);
-});
-
-closeAddingFormButton.addEventListener('click', function () {
-  popupCloses(popupAddingForm);
-});
-
-closePictureFormButton.addEventListener('click', function () {
-  popupCloses(popupPicture);
-});
-
-profileFormElement.addEventListener('submit', function (event) {
-  event.preventDefault();
-  profileNameElement.textContent = nameFieldElement.value;
-  profileOccupationElement.textContent = occupationFieldElement.value;
-  popupCloses(popupProfileForm);
-});
-
 const initialCards = [
   {
     name: 'Архыз',
@@ -96,6 +55,29 @@ const elementsInputElement = document.querySelector('.popup__input_type_title');
 const addressFieldElement = document.querySelector('.popup__input_type_address');
 const elementsTemplateElement = document.querySelector('.elements-template');
 const getElementByEvent = e => e.currentTarget.closest('.element');
+
+
+
+function popupOpen(popup) {
+  popup.classList.add('popup_opened');
+}
+
+function popupCloses(popup) {
+  popup.classList.remove('popup_opened');
+}
+
+function openProfileForm() {
+  popupOpen(popupProfileForm);
+  nameFieldElement.value = profileNameElement.textContent;
+  occupationFieldElement.value = profileOccupationElement.textContent;
+}
+
+function saveProfileText(e) {
+  e.preventDefault();
+  profileNameElement.textContent = nameFieldElement.value;
+  profileOccupationElement.textContent = occupationFieldElement.value;
+  popupCloses(popupProfileForm);
+}
 
 const createElement = (title, address) => {
   let element = elementsTemplateElement.content
@@ -150,6 +132,27 @@ const handleAddingSubmit = e => {
   elementsAddingElement.reset();
   popupCloses(popupAddingForm);
 };
+
+
+editNewCardButton.addEventListener('click', function () {
+  popupOpen(popupAddingForm);
+});
+
+editProfileButton.addEventListener('click', openProfileForm);
+
+closeProfileButton.addEventListener('click', function () {
+  popupCloses(popupProfileForm);
+});
+
+closeAddingFormButton.addEventListener('click', function () {
+  popupCloses(popupAddingForm);
+});
+
+closePictureFormButton.addEventListener('click', function () {
+  popupCloses(popupPicture);
+});
+
+profileFormElement.addEventListener('submit', saveProfileText);
 
 elementsAddingElement.addEventListener('submit', handleAddingSubmit);
 
