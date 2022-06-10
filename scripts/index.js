@@ -7,7 +7,7 @@ const occupationFieldElement = document.querySelector('.popup__input_type_ocupat
 const profileFormElement = document.querySelector('.profile-form');
 
 const editProfileButton = document.querySelector('.profile__edit-button');
-const editNewCardButton = document.querySelector('.profile__add-button');
+const newCardButton = document.querySelector('.profile__add-button');
 
 const closeProfileButton = document.querySelector('.profile-form-close');
 const closeAddingFormButton = document.querySelector('.adding-form-close');
@@ -26,7 +26,6 @@ const cardFormElement = document.querySelector('.adding-form');
 const cardInputTitle = document.querySelector('.popup__input_type_title');
 const cardInputLink = document.querySelector('.popup__input_type_address');
 const cardTemplateElement = document.querySelector('.elements-template');
-const getElementByEvent = e => e.currentTarget.closest('.element');
 
 
 function popupOpen(popup) {
@@ -86,14 +85,14 @@ const createCard = (cardData) => {
   return cardElement;
 };
 
-const addCardElement = (cardData) => {
+const renderCard = (cardData) => {
   const cardElement = createCard(cardData);
 
   elementsGridElement.prepend(cardElement);
 };
 
 initialCards.forEach((item) => {
-  addCardElement(item);
+  renderCard(item);
 });
 
 const handleCardAddingSubmit = e => {
@@ -103,13 +102,13 @@ const handleCardAddingSubmit = e => {
       link: cardInputLink.value
     };
 
-  addCardElement(cardData);
+  renderCard(cardData);
   cardFormElement.reset();
   popupCloses(popupAddingForm);
 };
 
 
-editNewCardButton.addEventListener('click', function () {
+newCardButton.addEventListener('click', function () {
   popupOpen(popupAddingForm);
 });
 
