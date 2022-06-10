@@ -44,8 +44,8 @@
             <button type="button" class="popup__close profile-form-close"></button>
             <h3 class="popup__title">Редактировать профиль</h3>
             <form class="popup__form profile-form" name="profile-form">
-              <input type="text" name="profile-form-name" placeholder="Имя" class="popup__input popup__input_type_name">
-              <input type="text" name="profile-form-ocupation" placeholder="Вид деятельности" class="popup__input popup__input_type_ocupation">
+              <input type="text" name="profile-form-name" required placeholder="Имя" class="popup__input popup__input_type_name">
+              <input type="text" name="profile-form-ocupation" required placeholder="Вид деятельности" class="popup__input popup__input_type_ocupation">
               <button type="submit" class="popup__button popup__button_type_profile-submit">Сохранить</button>
             </form>
         </div>
@@ -56,8 +56,8 @@
             <button type="button" class="popup__close adding-form-close"></button>
             <h3 class="popup__title">Новое место</h3>
             <form class="popup__form adding-form" name="adding-form">
-              <input type="text" name="profile-form-title" placeholder="Название" class="popup__input popup__input_type_title">
-              <input type="text" name="profile-form-address" placeholder="Ссылка на картинку" class="popup__input popup__input_type_address">
+              <input type="text" name="profile-form-title" required placeholder="Название" class="popup__input popup__input_type_title">
+              <input type="url" name="profile-form-address" required placeholder="Ссылка на картинку" class="popup__input popup__input_type_address">
               <button type="submit" class="popup__button popup__button_type_adding-submit">Создать</button>
             </form>
         </div>
@@ -84,6 +84,7 @@
         </li>
       </template>
   </div>
+<script src="scripts/cards.js"></script>
 <script src="scripts/index.js"></script>
 </body>
 </html>
