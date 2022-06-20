@@ -60,7 +60,7 @@ function popupOpen(popup) {
 function popupCloses(popup) {
   popup.classList.remove('popup_opened');
   popup.removeEventListener('click', checkCloseConditions);
-  document.removeEventListener('keydown', keyHandler2);
+  document.removeEventListener('keydown', keyHandler);
 }
 
 function openProfileForm() {
