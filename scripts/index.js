@@ -75,7 +75,6 @@ function popupCloses(popup) {
     hideInputError(popup, inputElement, selectors);
   });
   const buttonElement = popup.querySelector(selectors.submitButtonSelector);
-  //oggleButtonState(inputList, buttonElement, selectors);
   buttonElement.classList.add(selectors.inactiveButtonClass);
   buttonElement.setAttribute('disabled', true);
 }
