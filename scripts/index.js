@@ -27,7 +27,16 @@ const cardInputTitle = document.querySelector('.popup__input_type_title');
 const cardInputLink = document.querySelector('.popup__input_type_link');
 const cardTemplateElement = document.querySelector('.elements-template');
 
-// const popups = document.querySelectorAll('.popup');
+const popups = document.querySelectorAll('.popup');
+
+const selectors = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_inactive',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
+};
 
 function checkCloseConditions(e) {
   if (e.target.closest('.popup__content') === null) {
@@ -35,55 +44,68 @@ function checkCloseConditions(e) {
   }
 }
 
-// function keyHandler(e) {
-//   popups.forEach(popup => {
+function keyHandler(e) {
+  popups.forEach(popup => {
+    if (e.key === 'Escape' && popup.classList.contains('popup_opened')) {
+      popupCloses(popup);
+    }
+  });
+}
+// или то же самое через замыкание:
+// function keyHandler(popup) {
+//   return function (e) {
 //     if (e.key === 'Escape') {
 //       popupCloses(popup);
 //     }
-//   });
+//   };
 // }
-// или то же самое через замыкание:
-function keyHandler(popup) {
-  return function (e) {
-    if (e.key === 'Escape') {
-      popupCloses(popup);
-    }
-  };
-}
 
 function popupOpen(popup) {
   popup.classList.add('popup_opened');
   popup.addEventListener('click', checkCloseConditions);
-  document.addEventListener('keydown', keyHandler(popup));
+  document.addEventListener('keydown', keyHandler);
+  // document.addEventListener('keydown', keyHandler(popup));
 }
 
 function popupCloses(popup) {
   popup.classList.remove('popup_opened');
-  popup.removeEventListener('click', checkCloseConditions);
   document.removeEventListener('keydown', keyHandler);
+  const inputList = Array.from(popup.querySelectorAll(selectors.inputSelector));
+  inputList.forEach((inputElement) => {
+    hideInputError(popup, inputElement, selectors);
+  });
+  const buttonElement = popup.querySelector(selectors.submitButtonSelector);
+  //oggleButtonState(inputList, buttonElement, selectors);
+  buttonElement.classList.add(selectors.inactiveButtonClass);
+  buttonElement.setAttribute('disabled', true);
 }
 
 function openProfileForm() {
   nameFieldElement.value = profileNameElement.textContent;
   occupationFieldElement.value = profileOccupationElement.textContent;
-  enableValidation();
   popupOpen(popupProfileForm);
 }
 
 function saveProfileText(e) {
   e.preventDefault();
   const buttonElement = popupProfileForm.querySelector('.popup__button');
-  if (!buttonElement.classList.contains('popup__button_inactive')) {
     profileNameElement.textContent = nameFieldElement.value;
     profileOccupationElement.textContent = occupationFieldElement.value;
     popupCloses(popupProfileForm);
-  }
+}
+
+function handlePreviewImage(cardData) {
+  popupPictureElement.src = cardData.link;
+  popupPictureElement.alt = cardData.name;
+  popupPictureCaptionElement.textContent = cardData.name;
+  popupOpen(popupPicture);
 }
 
 const createCard = (cardData) => {
   const cardElement = cardTemplateElement.content
     .querySelector('.element')
     .cloneNode(true);
+
 
   const likeButton = cardElement.querySelector('.element__like');
   const cardElementLink = cardElement.querySelector('.element__image');
@@ -102,16 +124,8 @@ const createCard = (cardData) => {
 
   });
 
-  function handlePreviewImage() {
-    popupPictureElement.src = cardData.link;
-    popupPictureElement.alt = cardData.name;
-    popupPictureCaptionElement.textContent = cardData.name;
-    enableValidation();
-    popupOpen(popupPicture);
-  }
-
   cardElementLink.addEventListener('click', function () {
-    handlePreviewImage();
+    handlePreviewImage(cardData);
   });
 
   return cardElement;
@@ -166,4 +180,7 @@ closePictureFormButton.addEventListener('click', function () {
 profileFormElement.addEventListener('submit', saveProfileText);
 
 cardFormElement.addEventListener('submit', handleCardAddingSubmit);
+
+
+enableValidation(selectors);
 

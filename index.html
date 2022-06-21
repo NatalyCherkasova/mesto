@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,87 +10,118 @@
   <link rel="stylesheet" href="pages/index.css">
   <title>Место</title>
 </head>
+
 <body class="page">
   <div class="root">
-      <header class="header">
-        <img class="header__logo" src="images/Logo.svg" alt="Логотип">
-      </header>
+    <header class="header">
+      <img class="header__logo" src="images/Logo.svg" alt="Логотип">
+    </header>
 
-      <main class="content">
-          <section class="profile">
-            <img class="profile__avatar" src="images/avatar.png" alt="Аватар_фото">
-            <div class="profile__info">
-              <div class="profile__name-cover">
-                <h1 class="profile__text profile__text_type_name">Жак-Ив Кусто</h1>
-                <button type="button" class="profile__edit-button"></button>
-              </div>
-              <p class="profile__text profile__text_type_ocupation">Исследователь океана</p>
-            </div>
-            <button type="button" class="profile__add-button"></button>
-          </section>
-
-          <section class="elements">
-            <ul class="elements__grid">
-
-            </ul>
-          </section>
-      </main>
-
-      <footer class="footer">
-        <p class="footer__copyright">&copy; 2022. Mesto Russia</p>
-      </footer>
-
-      <div class="popup popup_type_profile-form">
-        <div class="popup__content">
-            <button type="button" class="popup__close profile-form-close"></button>
-            <h3 class="popup__title">Редактировать профиль</h3>
-            <form class="popup__form profile-form" name="profile-form" novalidate>
-              <input id="name-input" type="text" name="profile-form-name" placeholder="Имя" class="popup__input popup__input_type_name" minlength="2" maxlength="40" required>
-              <span class="name-input-error popup__input-error"></span>
-              <input id="ocupation-input" type="text" name="profile-form-ocupation" placeholder="О себе" class="popup__input popup__input_type_ocupation" minlength="2" maxlength="200" required>
-              <span class="ocupation-input-error popup__input-error"></span>
-              <button type="submit" class="popup__button popup__button_type_profile-submit">Сохранить</button>
-            </form>
-        </div>
-      </div>
-
-      <div class="popup popup_type_adding-form">
-        <div class="popup__content">
-            <button type="button" class="popup__close adding-form-close"></button>
-            <h3 class="popup__title">Новое место</h3>
-            <form class="popup__form adding-form" name="adding-form" novalidate>
-              <input id="title-input" type="text" name="adding-form-title" placeholder="Название" class="popup__input popup__input_type_title" minlength="2" maxlength="30" required>
-              <span class="title-input-error popup__input-error"></span>
-              <input id="link-input" type="url" name="adding-form-link" placeholder="Ссылка на картинку" class="popup__input popup__input_type_link" required>
-              <span class="link-input-error popup__input-error"></span>
-              <button type="submit" class="popup__button popup__button_type_adding-submit">Создать</button>
-            </form>
-        </div>
-      </div>
-
-      <div class="popup popup_type_picture">
-        <div class="popup__picture-cover">
-          <button type="button" class="popup__close picture-close"></button>
-          <figure class="popup__picture-box">
-            <img class="popup__picture" src="images/nothingAdded.png" alt="Ничего не загружено">
-            <figcaption class="popup__caption"></figcaption>
-        </figure>
-        </div>
-      </div>
-
-      <template class="elements-template">
-        <li class ="element">
-          <img class="element__image" src="images/nothingAdded.png" alt="Ничего не загружено">
-          <button type="button" class="element__basket"></button>
-          <div class="element__caption">
-            <h2 class="element__title"></h2>
-            <button type="button" class="element__like"></button>
+    <main class="content">
+      <section class="profile">
+        <img class="profile__avatar" src="images/avatar.png" alt="Аватар_фото">
+        <div class="profile__info">
+          <div class="profile__name-cover">
+            <h1 class="profile__text profile__text_type_name">Жак-Ив Кусто</h1>
+            <button type="button" class="profile__edit-button"></button>
           </div>
-        </li>
-      </template>
+          <p class="profile__text profile__text_type_ocupation">Исследователь океана</p>
+        </div>
+        <button type="button" class="profile__add-button"></button>
+      </section>
+
+      <section class="elements">
+        <ul class="elements__grid">
+
+        </ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="footer__copyright">&copy; 2022. Mesto Russia</p>
+    </footer>
+
+    <div class="popup popup_type_profile-form">
+      <div class="popup__content">
+        <button type="button" class="popup__close profile-form-close"></button>
+        <h3 class="popup__title">Редактировать профиль</h3>
+        <form class="popup__form profile-form" name="profile-form" novalidate>
+          <input
+            id="name-input"
+            type="text"
+            name="profile-form-name"
+            placeholder="Имя"
+            class="popup__input popup__input_type_name"
+            minlength="2"
+            maxlength="40"
+            required>
+          <span class="name-input-error popup__input-error"></span>
+          <input
+            id="ocupation-input"
+            type="text" name="profile-form-ocupation"
+            placeholder="О себе"
+            class="popup__input popup__input_type_ocupation"
+            minlength="2"
+            maxlength="200"
+            required>
+          <span class="ocupation-input-error popup__input-error"></span>
+          <button type="submit" class="popup__button popup__button_type_profile-submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup popup_type_adding-form">
+      <div class="popup__content">
+        <button type="button" class="popup__close adding-form-close"></button>
+        <h3 class="popup__title">Новое место</h3>
+        <form class="popup__form adding-form" name="adding-form" novalidate>
+          <input
+            id="title-input"
+            type="text"
+            name="adding-form-title"
+            placeholder="Название"
+            class="popup__input popup__input_type_title"
+            minlength="2"
+            maxlength="30"
+            required>
+          <span class="title-input-error popup__input-error"></span>
+          <input
+            id="link-input"
+            type="url"
+            name="adding-form-link"
+            placeholder="Ссылка на картинку"
+            class="popup__input popup__input_type_link"
+            required>
+          <span class="link-input-error popup__input-error"></span>
+          <button type="submit" class="popup__button popup__button_type_adding-submit">Создать</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup popup_type_picture">
+      <div class="popup__picture-cover">
+        <button type="button" class="popup__close picture-close"></button>
+        <figure class="popup__picture-box">
+          <img class="popup__picture" src="images/nothingAdded.png" alt="Ничего не загружено">
+          <figcaption class="popup__caption"></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <template class="elements-template">
+      <li class="element">
+        <img class="element__image" src="images/nothingAdded.png" alt="Ничего не загружено">
+        <button type="button" class="element__basket"></button>
+        <div class="element__caption">
+          <h2 class="element__title"></h2>
+          <button type="button" class="element__like"></button>
+        </div>
+      </li>
+    </template>
   </div>
-<script src="scripts/cards.js"></script>
-<script src="scripts/validate.js"></script>
-<script src="scripts/index.js"></script>
+  <script src="scripts/cards.js"></script>
+  <script src="scripts/validate.js"></script>
+  <script src="scripts/index.js"></script>
 </body>
+
 </html>
