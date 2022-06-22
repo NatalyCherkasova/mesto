@@ -70,16 +70,13 @@ function popupOpen(popup) {
 function popupCloses(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', keyHandler);
-  const inputList = Array.from(popup.querySelectorAll(selectors.inputSelector));
-  inputList.forEach((inputElement) => {
-    hideInputError(popup, inputElement, selectors);
-  });
-  const buttonElement = popup.querySelector(selectors.submitButtonSelector);
-  buttonElement.classList.add(selectors.inactiveButtonClass);
-  buttonElement.setAttribute('disabled', true);
 }
 
 function openProfileForm() {
+  const inputList = Array.from(popupProfileForm.querySelectorAll(selectors.inputSelector));
+  inputList.forEach((inputElement) => {
+    hideInputError(popupProfileForm, inputElement, selectors);
+  });
   nameFieldElement.value = profileNameElement.textContent;
   occupationFieldElement.value = profileOccupationElement.textContent;
   popupOpen(popupProfileForm);
@@ -87,10 +84,9 @@ function openProfileForm() {
 
 function saveProfileText(e) {
   e.preventDefault();
-  const buttonElement = popupProfileForm.querySelector('.popup__button');
-    profileNameElement.textContent = nameFieldElement.value;
-    profileOccupationElement.textContent = occupationFieldElement.value;
-    popupCloses(popupProfileForm);
+  profileNameElement.textContent = nameFieldElement.value;
+  profileOccupationElement.textContent = occupationFieldElement.value;
+  popupCloses(popupProfileForm);
 }
 
 function handlePreviewImage(cardData) {
@@ -143,9 +139,6 @@ initialCards.forEach((item) => {
 const handleCardAddingSubmit = e => {
   e.preventDefault();
 
-  const buttonElement = popupAddingForm.querySelector('.popup__button');
-  if (!buttonElement.classList.contains('popup__button_inactive')) {
-
     const cardData = {
       name: cardInputTitle.value,
       link: cardInputLink.value
@@ -153,8 +146,10 @@ const handleCardAddingSubmit = e => {
 
     renderCard(cardData);
     cardFormElement.reset();
+    const buttonElement = popupAddingForm.querySelector(selectors.submitButtonSelector);
+    buttonElement.classList.add(selectors.inactiveButtonClass);
+    buttonElement.setAttribute('disabled', true);
     popupCloses(popupAddingForm);
-  }
 };
 
 

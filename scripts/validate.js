@@ -18,18 +18,14 @@ const hideInputError = (formElement, inputElement, obj) => {
 const checkInputValidity = (formElement, inputElement, obj) => {
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, obj);
-    console.log(inputElement.validationMessage);
   } else {
     hideInputError(formElement, inputElement, obj);
   }
 };
 
 const hasInvalidInput = (inputList) => {
-  // проходим по этому массиву методом some
+
   return inputList.some((inputElement) => {
-    // Если поле не валидно, колбэк вернёт true
-    // Обход массива прекратится и вся функция
-    // hasInvalidInput вернёт true
 
     if (inputElement.validity.valid === false) {
       return true;
