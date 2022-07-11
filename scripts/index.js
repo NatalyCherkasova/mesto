@@ -38,6 +38,8 @@ const selectors = {
   errorClass: 'popup__input-error_active'
 };
 
+const inputList = Array.from(popupProfileForm.querySelectorAll(selectors.inputSelector));
+
 function checkCloseConditions(e) {
   if (e.target.closest('.popup__content') === null) {
     popupCloses(e.target.closest('.popup'));
@@ -46,7 +48,7 @@ function checkCloseConditions(e) {
 
 function keyHandler(e) {
   popups.forEach(popup => {
-    if (e.key === 'Escape' && popup.classList.contains('popup_opened')) {
+    if (e.key === 'Escape') {
       popupCloses(popup);
     }
   });
@@ -73,7 +75,6 @@ function popupCloses(popup) {
 }
 
 function openProfileForm() {
-  const inputList = Array.from(popupProfileForm.querySelectorAll(selectors.inputSelector));
   inputList.forEach((inputElement) => {
     hideInputError(popupProfileForm, inputElement, selectors);
   });
