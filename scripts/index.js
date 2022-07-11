@@ -1,3 +1,6 @@
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
+
 const profileNameElement = document.querySelector('.profile__text_type_name');
 const nameFieldElement = document.querySelector('.popup__input_type_name');
 
@@ -40,6 +43,50 @@ const selectors = {
 
 const inputList = Array.from(popupProfileForm.querySelectorAll(selectors.inputSelector));
 
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+
+initialCards.forEach(item => {
+  const cardItem = new Card(item, '.elements-template_type_default');
+  const cardElement = cardItem.generateCard();
+
+  document.querySelector('.elements__grid').prepend(cardElement);
+
+});
+
+const validationProfile = new FormValidator(selectors, popupProfileForm);
+validationProfile.enableValidation();
+
+const validationCard = new FormValidator(selectors, popupAddingForm);
+validationCard.enableValidation();
+
+/////////////////////////////////////////////////////////////////////////
+
 function checkCloseConditions(e) {
   if (e.target.closest('.popup__content') === null) {
     popupCloses(e.target.closest('.popup'));
@@ -75,16 +122,15 @@ function popupCloses(popup) {
 }
 
 function openProfileForm() {
-  inputList.forEach((inputElement) => {
-    hideInputError(popupProfileForm, inputElement, selectors);
-  });
+  validationProfile.resetValidation();
+  profileFormElement.reset();
   nameFieldElement.value = profileNameElement.textContent;
   occupationFieldElement.value = profileOccupationElement.textContent;
   popupOpen(popupProfileForm);
+  validationProfile.toggleButtonState();
 }
 
-function saveProfileText(e) {
-  e.preventDefault();
+function saveProfileText() {
   profileNameElement.textContent = nameFieldElement.value;
   profileOccupationElement.textContent = occupationFieldElement.value;
   popupCloses(popupProfileForm);
@@ -97,39 +143,13 @@ function handlePreviewImage(cardData) {
   popupOpen(popupPicture);
 }
 
-const createCard = (cardData) => {
-  const cardElement = cardTemplateElement.content
-    .querySelector('.element')
-    .cloneNode(true);
-
-
-  const likeButton = cardElement.querySelector('.element__like');
+const renderCard = (cardData) => {
+  const cardItem = new Card(cardData);
+  const cardElement = cardItem.generateCard();
   const cardElementLink = cardElement.querySelector('.element__image');
-
-  cardElement.querySelector('.element__title').textContent = cardData.name;
-  cardElementLink.src = cardData.link;
-
-  likeButton.addEventListener('click', e => {
-    const eventTarget = e.currentTarget;
-    eventTarget.classList.toggle('element__like_active');
-  });
-
-  cardElement.querySelector('.element__basket').addEventListener('click', function () {
-
-    cardElement.remove();
-
-  });
-
   cardElementLink.addEventListener('click', function () {
     handlePreviewImage(cardData);
   });
-
-  return cardElement;
-};
-
-const renderCard = (cardData) => {
-  const cardElement = createCard(cardData);
-
   elementsGridElement.prepend(cardElement);
 };
 
@@ -152,10 +172,13 @@ const handleCardAddingSubmit = e => {
     buttonElement.setAttribute('disabled', true);
     popupCloses(popupAddingForm);
 };
-
+////////////////////////////////////////////////////////////////////////
 
 newCardButton.addEventListener('click', function () {
+  validationCard.resetValidation();
+  cardFormElement.reset();
   popupOpen(popupAddingForm);
+  validationCard.toggleButtonState();
 });
 
 editProfileButton.addEventListener('click', openProfileForm);
@@ -176,6 +199,8 @@ profileFormElement.addEventListener('submit', saveProfileText);
 
 cardFormElement.addEventListener('submit', handleCardAddingSubmit);
 
+/////////////////////////////////////////////////////////////////////////
 
-enableValidation(selectors);
+
+
 
