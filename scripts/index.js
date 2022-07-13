@@ -9,13 +9,13 @@ const occupationFieldElement = document.querySelector('.popup__input_type_ocupat
 
 const profileFormElement = document.querySelector('.profile-form');
 
-const editProfileButton = document.querySelector('.profile__edit-button');
+const profileButtonEdit = document.querySelector('.profile__edit-button');
 const newCardButton = document.querySelector('.profile__add-button');
 
-const closeProfileButton = document.querySelector('.profile-form-close');
-const closeAddingFormButton = document.querySelector('.adding-form-close');
+const profileButtonClose = document.querySelector('.profile-form-close');
+const addingFormButtonClose = document.querySelector('.adding-form-close');
 
-const closePictureFormButton = document.querySelector('.picture-close');
+const pictureFormButtonClose = document.querySelector('.picture-close');
 
 const popupProfileForm = document.querySelector('.popup_type_profile-form');
 const popupAddingForm = document.querySelector('.popup_type_adding-form');
@@ -24,6 +24,9 @@ const popupPicture = document.querySelector('.popup_type_picture');
 const cardFormElement = document.querySelector('.adding-form');
 const cardInputTitle = document.querySelector('.popup__input_type_title');
 const cardInputLink = document.querySelector('.popup__input_type_link');
+
+const popupPictureElement = document.querySelector('.popup__picture');
+const popupPictureCaptionElement = document.querySelector('.popup__caption');
 
 const popups = document.querySelectorAll('.popup');
 
@@ -73,67 +76,63 @@ validationCard.enableValidation();
 
 /////////////////////////////////////////////////////////////////////////
 
-function checkCloseConditions(e) {
-  if (e.target.closest('.popup__content') === null) {
-    popupCloses(e.target.closest('.popup'));
-  }
+// function closeByOverlay(e) {
+//   if ((e.target.closest('.popup__content') === null) && (e.target.closest('.popup__picture-cover') === null)) {
+//     closePopup(e.target.closest('.popup'));
+//   }
+// }
+
+// Исправила предыдущую функцию, теперь она работает, но сделала, как ты предложил, прикольный вариант, спасибо!
+
+function closeByOverlay() {
+  popups.forEach(popup => {
+    popup.addEventListener('click', e => {
+      if (e.target.classList.contains('popup')) {
+        closePopup(popup);
+      }
+    });
+  });
 }
 
 function keyHandler(e) {
-  popups.forEach(popup => {
-    if (e.key === 'Escape' && popup.classList.contains('popup_opened')) {
-      popupCloses(popup);
+  const currentPopup = document.querySelector('.popup_opened');
+    if (e.key === 'Escape') {
+      closePopup(currentPopup);
     }
-  });
 }
-// или то же самое через замыкание:
-// function keyHandler(popup) {
-//   return function (e) {
-//     if (e.key === 'Escape') {
-//       popupCloses(popup);
-//     }
-//   };
-// }
 
-function popupOpen(popup) {
+function openPopup(popup) {
   popup.classList.add('popup_opened');
-  popup.addEventListener('click', checkCloseConditions); // при закрытии сниму слушатели
-  document.addEventListener('keydown', keyHandler);
-  // document.addEventListener('keydown', keyHandler(popup));
 }
 
-function popupCloses(popup) {
+function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', keyHandler);
-  popup.removeEventListener('click', checkCloseConditions);
-} ///  снимаю слушатели чтобы не прописывать в каждом попапе
+}
 
 function openProfileForm() {
   validationProfile.resetValidation();
   profileFormElement.reset();
   nameFieldElement.value = profileNameElement.textContent;
   occupationFieldElement.value = profileOccupationElement.textContent;
-  popupOpen(popupProfileForm);
+  openPopup(popupProfileForm);
   validationProfile.toggleButtonState();
-  // popupProfileForm.addEventListener('click', checkCloseConditions);
-  // document.addEventListener('keydown', keyHandler);
+  // popupProfileForm.addEventListener('click', closeByOverlay);
+  document.addEventListener('keydown', keyHandler);
 }
 
 function saveProfileText() {
   profileNameElement.textContent = nameFieldElement.value;
   profileOccupationElement.textContent = occupationFieldElement.value;
-  popupCloses(popupProfileForm);
+  closePopup(popupProfileForm);
 }
 
 export function handlePreviewImage(name, link) {
-  const popupPictureElement = document.querySelector('.popup__picture');
   popupPictureElement.src = link;
   popupPictureElement.alt = name;
-  const popupPictureCaptionElement = document.querySelector('.popup__caption');
   popupPictureCaptionElement.textContent = name;
-  popupOpen(popupPicture);
-  // popupPicture.addEventListener('click', checkCloseConditions);
-  // document.addEventListener('keydown', keyHandler);
+  openPopup(popupPicture);
+  // popupPicture.addEventListener('click', closeByOverlay);
+  document.addEventListener('keydown', keyHandler);
 }
 
 function renderCard(data, cardSelector) {
@@ -153,8 +152,9 @@ const handleCardAddingSubmit = e => {
     renderCard(cardData, '.elements-template_type_default');
     cardFormElement.reset();
     validationCard.toggleButtonState();
-    popupCloses(popupAddingForm);
+    closePopup(popupAddingForm);
 };
+
 ////////////////////////////////////////////////////////////////////////
 
 initialCards.forEach(item => {
@@ -164,29 +164,31 @@ initialCards.forEach(item => {
 newCardButton.addEventListener('click', function () {
   validationCard.resetValidation();
   cardFormElement.reset();
-  popupOpen(popupAddingForm);
+  openPopup(popupAddingForm);
   validationCard.toggleButtonState();
-  // popupAddingForm.addEventListener('click', checkCloseConditions);
-  // document.addEventListener('keydown', keyHandler);
+  // popupAddingForm.addEventListener('click', closeByOverlay);
+  document.addEventListener('keydown', keyHandler);
 });
 
-editProfileButton.addEventListener('click', openProfileForm);
+profileButtonEdit.addEventListener('click', openProfileForm);
 
-closeProfileButton.addEventListener('click', function () {
-  popupCloses(popupProfileForm);
+profileButtonClose.addEventListener('click', function () {
+  closePopup(popupProfileForm);
 });
 
-closeAddingFormButton.addEventListener('click', function () {
-  popupCloses(popupAddingForm);
+addingFormButtonClose.addEventListener('click', function () {
+  closePopup(popupAddingForm);
 });
 
-closePictureFormButton.addEventListener('click', function () {
-  popupCloses(popupPicture);
+pictureFormButtonClose.addEventListener('click', function () {
+  closePopup(popupPicture);
 });
 
 profileFormElement.addEventListener('submit', saveProfileText);
 
 cardFormElement.addEventListener('submit', handleCardAddingSubmit);
+
+closeByOverlay();
 
 /////////////////////////////////////////////////////////////////////////
 
