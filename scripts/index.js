@@ -101,13 +101,11 @@ function keyHandler(e) {
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  popup.addEventListener('click', closeByOverlay);
   document.addEventListener('keydown', keyHandler);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  popup.removeEventListener('click', closeByOverlay);
   document.removeEventListener('keydown', keyHandler);
 }
 
@@ -171,6 +169,8 @@ profileButtonEdit.addEventListener('click', openProfileForm);
 profileFormElement.addEventListener('submit', saveProfileText);
 
 cardFormElement.addEventListener('submit', handleCardAddingSubmit);
+
+closeByOverlay();
 
 /////////////////////////////////////////////////////////////////////////
 
