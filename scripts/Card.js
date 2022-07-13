@@ -1,3 +1,5 @@
+import { handlePreviewImage } from "./index.js";
+
 class Card {
   constructor(data, cardSelector) {
     this._name = data.name;
@@ -7,7 +9,7 @@ class Card {
 
   _getTemplate() {
     return document
-    .querySelector('.elements-template')
+    .querySelector(this._cardSelector)
     .content
     .querySelector('.element')
     .cloneNode(true);
@@ -33,6 +35,10 @@ class Card {
 
     this._element.querySelector('.element__basket').addEventListener('click', () => {
       this._handleDeleteButtonClick();
+    });
+
+    this._element.querySelector('.element__image').addEventListener('click', () => {
+      handlePreviewImage(this._name, this._link);
     });
 
   }
