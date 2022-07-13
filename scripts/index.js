@@ -107,6 +107,7 @@ function openPopup(popup) {
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('click', closeByOverlay);
   document.removeEventListener('keydown', keyHandler);
 }
 
