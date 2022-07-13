@@ -82,12 +82,10 @@ validationCard.enableValidation();
 //   }
 // }
 
-// Исправила предыдущую функцию, теперь она работает, но сделала, как ты предложил, прикольный вариант, спасибо!
-
 function closeByOverlay() {
   popups.forEach(popup => {
     popup.addEventListener('click', e => {
-      if (e.target.classList.contains('popup')) {
+      if (e.target.classList.contains('popup') || e.target.classList.contains('popup__close')) {
         closePopup(popup);
       }
     });
@@ -95,18 +93,21 @@ function closeByOverlay() {
 }
 
 function keyHandler(e) {
-  const currentPopup = document.querySelector('.popup_opened');
     if (e.key === 'Escape') {
+      const currentPopup = document.querySelector('.popup_opened');
       closePopup(currentPopup);
     }
 }
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  popup.addEventListener('click', closeByOverlay);
+  document.addEventListener('keydown', keyHandler);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', keyHandler);
 }
 
 function openProfileForm() {
@@ -116,8 +117,6 @@ function openProfileForm() {
   occupationFieldElement.value = profileOccupationElement.textContent;
   openPopup(popupProfileForm);
   validationProfile.toggleButtonState();
-  // popupProfileForm.addEventListener('click', closeByOverlay);
-  document.addEventListener('keydown', keyHandler);
 }
 
 function saveProfileText() {
@@ -131,8 +130,6 @@ export function handlePreviewImage(name, link) {
   popupPictureElement.alt = name;
   popupPictureCaptionElement.textContent = name;
   openPopup(popupPicture);
-  // popupPicture.addEventListener('click', closeByOverlay);
-  document.addEventListener('keydown', keyHandler);
 }
 
 function renderCard(data, cardSelector) {
@@ -166,29 +163,13 @@ newCardButton.addEventListener('click', function () {
   cardFormElement.reset();
   openPopup(popupAddingForm);
   validationCard.toggleButtonState();
-  // popupAddingForm.addEventListener('click', closeByOverlay);
-  document.addEventListener('keydown', keyHandler);
 });
 
 profileButtonEdit.addEventListener('click', openProfileForm);
 
-profileButtonClose.addEventListener('click', function () {
-  closePopup(popupProfileForm);
-});
-
-addingFormButtonClose.addEventListener('click', function () {
-  closePopup(popupAddingForm);
-});
-
-pictureFormButtonClose.addEventListener('click', function () {
-  closePopup(popupPicture);
-});
-
 profileFormElement.addEventListener('submit', saveProfileText);
 
 cardFormElement.addEventListener('submit', handleCardAddingSubmit);
-
-closeByOverlay();
 
 /////////////////////////////////////////////////////////////////////////
 
