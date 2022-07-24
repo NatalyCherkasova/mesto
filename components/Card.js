@@ -1,4 +1,4 @@
-import { handlePreviewImage } from "./index.js";
+import { handlePreviewImage } from "../pages/index.js";
 
 class Card {
   constructor(data, cardSelector) {
