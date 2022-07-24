@@ -70,11 +70,19 @@ export function handlePreviewImage(name, link) {
   openPopup(popupPicture);
 }
 
-// function renderCard(data, cardSelector) {
-//   const cardItem = new Card(data, cardSelector);
+// function renderCard(item, cardSelector) {
+//   const cardItem = new Card(item, cardSelector);
 //   const cardElement = cardItem.generateCard();
 //   document.querySelector('.elements__grid').prepend(cardElement);
 // }
+
+function renderCard(item, cardSelector) {
+    const card =  new Card(item, cardSelector);
+
+    const cardElement = card.generateCard();
+
+    Cards.setItem(cardElement);
+}
 
 const handleCardAddingSubmit = e => {
   e.preventDefault();
@@ -94,11 +102,14 @@ const handleCardAddingSubmit = e => {
 
 const Cards = new Section({data:initialCards,
   renderer: (item) => {
-    const card =  new Card(item, '.elements-template_type_default');
+    renderCard(item, '.elements-template_type_default');
+    // const card =  new Card(item, '.elements-template_type_default');
 
-    const cardElement = card.generateCard();
+    // const cardElement = card.generateCard();
 
-    Cards.setItem(cardElement);} }, '.elements__grid');
+    // Cards.setItem(cardElement);
+  }
+}, '.elements__grid');
 
 
 // }, '.elements__grid');
