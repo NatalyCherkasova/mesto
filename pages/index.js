@@ -1,6 +1,8 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
+import PopupWithForm from "../components/FormValidator.js";
+import PopupWithImage from "../components/PopupWithImage.js";
 
 import { profileNameElement, nameFieldElement, profileOccupationElement, occupationFieldElement,
   profileFormElement, profileButtonEdit, newCardButton, popupProfileForm, popupAddingForm, popupPicture,
@@ -64,27 +66,19 @@ function saveProfileText() {
 }
 
 export function handlePreviewImage(name, link) {
-  popupPictureElement.src = link;
-  popupPictureElement.alt = name;
-  popupPictureCaptionElement.textContent = name;
-  openPopup(popupPicture);
+  const popupWithImage = new PopupWithImage('.popup_type_picture');
+  popupWithImage.open(link, name);
 }
-
-// function renderCard(item, cardSelector) {
-//   const cardItem = new Card(item, cardSelector);
-//   const cardElement = cardItem.generateCard();
-//   document.querySelector('.elements__grid').prepend(cardElement);
-// }
 
 function renderCard(item, cardSelector) {
     const card =  new Card(item, cardSelector);
 
     const cardElement = card.generateCard();
 
-    Cards.setItem(cardElement);
+    cardsSection.addItem(cardElement);
 }
 
-const handleCardAddingSubmit = e => {
+export const handleAddingFormSubmit = e => {
   e.preventDefault();
 
     const cardData = {
@@ -100,23 +94,13 @@ const handleCardAddingSubmit = e => {
 
 ////////////////////////////////////////////////////////////////////////
 
-const Cards = new Section({data:initialCards,
+const cardsSection = new Section({data:initialCards,
   renderer: (item) => {
     renderCard(item, '.elements-template_type_default');
-    // const card =  new Card(item, '.elements-template_type_default');
-
-    // const cardElement = card.generateCard();
-
-    // Cards.setItem(cardElement);
   }
 }, '.elements__grid');
 
-
-// }, '.elements__grid');
-Cards.renderItems();
-// initialCards.forEach(item => {
-//   renderCard(item, '.elements-template_type_default');
-// });
+cardsSection.renderItems();
 
 newCardButton.addEventListener('click', function () {
   validationCard.resetValidation();
@@ -129,7 +113,7 @@ profileButtonEdit.addEventListener('click', openProfileForm);
 
 profileFormElement.addEventListener('submit', saveProfileText);
 
-cardFormElement.addEventListener('submit', handleCardAddingSubmit);
+cardFormElement.addEventListener('submit', handleAddingFormSubmit);
 
 closeByOverlay();
 

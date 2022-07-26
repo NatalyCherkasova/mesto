@@ -23,6 +23,7 @@ class Card {
 
     this._element.querySelector('.element__image').src = this._link;
     this._element.querySelector('.element__title').textContent = this._name;
+    this._element.querySelector('.element__title').alt = this._alt;
 
   // Вернём элемент наружу
     return this._element;
@@ -38,7 +39,7 @@ class Card {
     });
 
     this._element.querySelector('.element__image').addEventListener('click', () => {
-      handlePreviewImage(this._name, this._link);
+      handlePreviewImage(this._name, this._link, this._alt);
     });
 
   }

@@ -20,7 +20,9 @@ const cardInputLink = document.querySelector('.popup__input_type_link');
 const popupPictureElement = document.querySelector('.popup__picture');
 const popupPictureCaptionElement = document.querySelector('.popup__caption');
 
+const popup = document.querySelector('.popup');
 const popups = document.querySelectorAll('.popup');
+const popupCloseButton = document.querySelector('.popup__close');
 
 const selectors = {
   formSelector: '.popup__form',
@@ -62,5 +64,5 @@ const initialCards = [
 
 export { profileNameElement, nameFieldElement, profileOccupationElement, occupationFieldElement,
   profileFormElement, profileButtonEdit, newCardButton, popupProfileForm, popupAddingForm, popupPicture,
-  cardFormElement, cardInputTitle, cardInputLink, popupPictureElement, popupPictureCaptionElement,
-  popups, selectors, initialCards };
+  cardFormElement, cardInputTitle, cardInputLink, popupPictureElement, popupPictureCaptionElement, popup,
+  popups, popupCloseButton, selectors, initialCards };
