@@ -83,12 +83,13 @@ const popupWithProfileForm = new PopupWithForm({
       description: cardData['profile-form-ocupation']
     };
 
-    profileNameElement.textContent = currentData.name;
-    profileOccupationElement.textContent = currentData.description;
+    userInfo.setUserInfo(currentData);
 
     popupWithProfileForm.close();
   }
 });
+
+popupWithProfileForm.setEventListeners();
 
 profileButtonEdit.addEventListener('click', function () {
   validationProfile.resetValidation();
@@ -96,6 +97,5 @@ profileButtonEdit.addEventListener('click', function () {
   nameFieldElement.value = userProfile.name;
   occupationFieldElement.value = userProfile.description;
   popupWithProfileForm.open();
-  popupWithProfileForm.setEventListeners();
 });
 
