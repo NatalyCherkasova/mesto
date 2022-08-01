@@ -1,38 +1,30 @@
 import Popup from './Popup.js';
-// import { cardInputTitle, cardInputLink } from '../utils/constants.js';
-
 export default class PopupWithForm extends Popup {
-  constructor(popupSelector, handleAddingFormSubmit) {
+  constructor({ popupSelector, handleFormSubmit }) {
     super(popupSelector);
-    this._handleAddingFormSubmit = handleAddingFormSubmit;
-    this._cardInputTitle = document.querySelector('.popup__input_type_title');
-    this._cardInputLink = document.querySelector('.popup__input_type_link');
-    this._cardFormElement = document.querySelector('.adding-form');
+    this._handleFormSubmit = handleFormSubmit;
+    this._cardForm = this._popup.querySelector('.popup__form');
+    this._inputList = Array.from(this._popup.querySelectorAll('.popup__input'));
   }
 
-  open() {
-    super.open();
-
-    this._getInputValues();
+  _getInputValues() {
+    const cardData = {};
+    this._inputList.forEach(input => cardData[input.name] = input.value);
+    return cardData;
   }
 
   close() {
     super.close();
-
-    this._cardFormElement.reset();
+    this._cardForm.reset();
   }
 
   setEventListeners() {
     super.setEventListeners();
 
-    this._cardFormElement.addEventListener('submit', () => {
-      this._handleAddingFormSubmit();
+    this._cardForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this._handleFormSubmit(this._getInputValues());
     });
-  }
-
-  _getInputValues(name, link) {
-    this._cardInputTitle.value = name;
-    this._cardInputLink.value = link;
   }
 
 }

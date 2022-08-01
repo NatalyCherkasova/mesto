@@ -1,10 +1,9 @@
-import { handlePreviewImage } from "../pages/index.js";
-
 class Card {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handleCardCklick) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+    this._handleCardCklick = handleCardCklick;
   }
 
   _getTemplate() {
@@ -39,7 +38,7 @@ class Card {
     });
 
     this._element.querySelector('.element__image').addEventListener('click', () => {
-      handlePreviewImage(this._name, this._link, this._alt);
+      this._handleCardCklick(this._name, this._link, this._alt);
     });
 
   }

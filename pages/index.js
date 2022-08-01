@@ -1,13 +1,27 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
-import PopupWithForm from "../components/FormValidator.js";
+import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import UserInfo from "../components/UserInfo.js";
+import Popup from "../components/Popup.js";
 
-import { profileNameElement, nameFieldElement, profileOccupationElement, occupationFieldElement,
+import {
+  profileNameElement, nameFieldElement, profileOccupationElement, occupationFieldElement,
   profileFormElement, profileButtonEdit, newCardButton, popupProfileForm, popupAddingForm, popupPicture,
   cardFormElement, cardInputTitle, cardInputLink, popupPictureElement, popupPictureCaptionElement,
-  popups, selectors, initialCards } from '../utils/constants.js';
+  popups, selectors, initialCards
+} from '../utils/constants.js';
+
+
+function renderCard(item, popupSelector) {
+  const card = new Card(item, popupSelector, handleCardCklick);
+
+  const cardElement = card.generateCard();
+  cardsSection.addItem(cardElement);
+}
+
+////////////////////      Валидация форм    /////////////////////////////
 
 const validationProfile = new FormValidator(selectors, popupProfileForm);
 validationProfile.enableValidation();
@@ -15,86 +29,10 @@ validationProfile.enableValidation();
 const validationCard = new FormValidator(selectors, popupAddingForm);
 validationCard.enableValidation();
 
-/////////////////////////////////////////////////////////////////////////
+////// Отрисовка первоначального массива карточек  ////////////////////////
 
-// function closeByOverlay(e) {
-//   if ((e.target.closest('.popup__content') === null) && (e.target.closest('.popup__picture-cover') === null)) {
-//     closePopup(e.target.closest('.popup'));
-//   }
-// }
-
-function closeByOverlay() {
-  popups.forEach(popup => {
-    popup.addEventListener('click', e => {
-      if (e.target.classList.contains('popup') || e.target.classList.contains('popup__close')) {
-        closePopup(popup);
-      }
-    });
-  });
-}
-
-function keyHandler(e) {
-    if (e.key === 'Escape') {
-      const currentPopup = document.querySelector('.popup_opened');
-      closePopup(currentPopup);
-    }
-}
-
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', keyHandler);
-}
-
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', keyHandler);
-}
-
-function openProfileForm() {
-  validationProfile.resetValidation();
-  profileFormElement.reset();
-  nameFieldElement.value = profileNameElement.textContent;
-  occupationFieldElement.value = profileOccupationElement.textContent;
-  openPopup(popupProfileForm);
-  validationProfile.toggleButtonState();
-}
-
-function saveProfileText() {
-  profileNameElement.textContent = nameFieldElement.value;
-  profileOccupationElement.textContent = occupationFieldElement.value;
-  closePopup(popupProfileForm);
-}
-
-export function handlePreviewImage(name, link) {
-  const popupWithImage = new PopupWithImage('.popup_type_picture');
-  popupWithImage.open(link, name);
-}
-
-function renderCard(item, cardSelector) {
-    const card =  new Card(item, cardSelector);
-
-    const cardElement = card.generateCard();
-
-    cardsSection.addItem(cardElement);
-}
-
-export const handleAddingFormSubmit = e => {
-  e.preventDefault();
-
-    const cardData = {
-      name: cardInputTitle.value,
-      link: cardInputLink.value
-    };
-
-    renderCard(cardData, '.elements-template_type_default');
-    cardFormElement.reset();
-    validationCard.toggleButtonState();
-    closePopup(popupAddingForm);
-};
-
-////////////////////////////////////////////////////////////////////////
-
-const cardsSection = new Section({data:initialCards,
+const cardsSection = new Section({
+  data: initialCards,
   renderer: (item) => {
     renderCard(item, '.elements-template_type_default');
   }
@@ -102,23 +40,64 @@ const cardsSection = new Section({data:initialCards,
 
 cardsSection.renderItems();
 
+//////////////  Обработка увеличенной карточки  ///////////////////////////
+
+const popupWithImage = new PopupWithImage('.popup_type_picture');
+function handleCardCklick(name, link) {
+  popupWithImage.open(link, name);
+}
+
+///////////   Обработка формы добавления карточки   //////////////////////
+
+const popupWithAddForm = new PopupWithForm({
+  popupSelector: '.popup_type_adding-form',
+  handleFormSubmit: (cardData) => {
+
+    const currentData = {
+      name: cardData['adding-form-title'],
+      link: cardData['adding-form-link']
+    };
+
+    renderCard(currentData, '.elements-template_type_default');
+    popupWithAddForm.close();
+  }
+});
+
+popupWithAddForm.setEventListeners();
+
 newCardButton.addEventListener('click', function () {
   validationCard.resetValidation();
   cardFormElement.reset();
-  openPopup(popupAddingForm);
+  popupWithAddForm.open();
   validationCard.toggleButtonState();
 });
 
-profileButtonEdit.addEventListener('click', openProfileForm);
+///////  Обработка формы добавления информации о путешественнике  ///////
 
-profileFormElement.addEventListener('submit', saveProfileText);
+const userInfo = new UserInfo('.profile__text_type_name', '.profile__text_type_ocupation');
+const popupWithProfileForm = new PopupWithForm({
+  popupSelector: '.popup_type_profile-form',
+  handleFormSubmit: (cardData) => {
 
-cardFormElement.addEventListener('submit', handleAddingFormSubmit);
+    const currentData = {
+      name: cardData['profile-form-name'],
+      description: cardData['profile-form-ocupation']
+    };
 
-closeByOverlay();
+    profileNameElement.textContent = currentData.name;
+    profileOccupationElement.textContent = currentData.description;
 
-/////////////////////////////////////////////////////////////////////////
+    popupWithProfileForm.close();
+  }
+});
 
-
-
+profileButtonEdit.addEventListener('click', function () {
+  validationProfile.resetValidation();
+  profileFormElement.reset();
+  const userProfile = userInfo.getUserInfo();
+  nameFieldElement.value = userProfile.name;
+  occupationFieldElement.value = userProfile.description;
+  popupWithProfileForm.open();
+  popupWithProfileForm.setEventListeners();
+});
 

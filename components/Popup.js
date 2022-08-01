@@ -1,8 +1,8 @@
-import { popup, popupCloseButton } from '../utils/constants.js';
+import { popupCloseButton } from '../utils/constants.js';
 
 export default class Popup {
   constructor(popupSelector) {
-    this._popupSelector = document.querySelector(popupSelector);
+    this._popup = document.querySelector(popupSelector);
   }
 
   _handleEscClose(e) {
@@ -18,27 +18,28 @@ export default class Popup {
   }
 
   open() {
-    this._popupSelector.classList.add('popup_opened');
-    document.addEventListener('keydown', (e) => {
-      this._handleEscClose(e);
-  });
+    this._popup.classList.add('popup_opened');
+  //   document.addEventListener('keydown', (e) => {
+  //     this._handleEscClose(e);
+  // });
   }
 
   close() {
-    this._popupSelector.classList.remove('popup_opened');
+    this._popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', (e) => {
       this._handleEscClose(e);
   });
   }
 
   setEventListeners() {
-    this._popupSelector.addEventListener('click', () => {
-      this.open();
-    });
 
-    this._popupSelector.addEventListener('click', (e) => {
+    this._popup.addEventListener('mousedown', (e) => {
       this._handleOverlayClose(e);
     });
+
+    document.addEventListener('keydown', (e) => {
+      this._handleEscClose(e);
+  });
 
     popupCloseButton.addEventListener('click', () => {
       this.close();
