@@ -4,7 +4,6 @@ import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
-import Popup from "../components/Popup.js";
 
 import {
   profileNameElement, nameFieldElement, profileOccupationElement, occupationFieldElement,
@@ -93,7 +92,6 @@ const popupWithProfileForm = new PopupWithForm({
 
 profileButtonEdit.addEventListener('click', function () {
   validationProfile.resetValidation();
-  profileFormElement.reset();
   const userProfile = userInfo.getUserInfo();
   nameFieldElement.value = userProfile.name;
   occupationFieldElement.value = userProfile.description;
