@@ -6,10 +6,9 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
 
 import {
-  profileNameElement, nameFieldElement, profileOccupationElement, occupationFieldElement,
-  profileFormElement, profileButtonEdit, newCardButton, popupProfileForm, popupAddingForm, popupPicture,
-  cardFormElement, cardInputTitle, cardInputLink, popupPictureElement, popupPictureCaptionElement,
-  popups, selectors, initialCards
+  nameFieldElement, occupationFieldElement, profileButtonEdit, newCardButton,
+  popupProfileForm, popupAddingForm, cardFormElement, selectors,
+  initialCards
 } from '../utils/constants.js';
 
 

@@ -1,27 +1,15 @@
-const profileNameElement = document.querySelector('.profile__text_type_name');
 const nameFieldElement = document.querySelector('.popup__input_type_name');
 
-const profileOccupationElement = document.querySelector('.profile__text_type_ocupation');
 const occupationFieldElement = document.querySelector('.popup__input_type_ocupation');
-
-const profileFormElement = document.querySelector('.profile-form');
 
 const profileButtonEdit = document.querySelector('.profile__edit-button');
 const newCardButton = document.querySelector('.profile__add-button');
 
 const popupProfileForm = document.querySelector('.popup_type_profile-form');
 const popupAddingForm = document.querySelector('.popup_type_adding-form');
-const popupPicture = document.querySelector('.popup_type_picture');
 
 const cardFormElement = document.querySelector('.adding-form');
-const cardInputTitle = document.querySelector('.popup__input_type_title');
-const cardInputLink = document.querySelector('.popup__input_type_link');
 
-const popupPictureElement = document.querySelector('.popup__picture');
-const popupPictureCaptionElement = document.querySelector('.popup__caption');
-
-const popup = document.querySelector('.popup');
-const popups = document.querySelectorAll('.popup');
 const popupCloseButton = document.querySelector('.popup__close');
 
 const selectors = {
@@ -32,8 +20,6 @@ const selectors = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_active'
 };
-
-const inputList = Array.from(popupProfileForm.querySelectorAll(selectors.inputSelector));
 
 const initialCards = [
   {
@@ -62,7 +48,10 @@ const initialCards = [
   }
 ];
 
-export { profileNameElement, nameFieldElement, profileOccupationElement, occupationFieldElement,
-  profileFormElement, profileButtonEdit, newCardButton, popupProfileForm, popupAddingForm, popupPicture,
-  cardFormElement, cardInputTitle, cardInputLink, popupPictureElement, popupPictureCaptionElement, popup,
-  popups, popupCloseButton, selectors, initialCards };
+export {
+  nameFieldElement, occupationFieldElement, profileButtonEdit,
+  newCardButton, popupProfileForm, popupAddingForm,
+  cardFormElement, popupCloseButton, selectors,
+  initialCards
+};
+
