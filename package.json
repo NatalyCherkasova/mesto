@@ -1,0 +1,38 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "Одностраничный сайт, по типу \"Контент-проект\", блог путешественника.<br>\r Создан в качестве практической работы для \"Яндекс Практикум\", по спринту:<br>\r *\"Базовый JavaScript и работа с браузером\".*<br>\r В работе соблюдены все требования. Сформирована файловая структура проекта по<br> правилам Nested БЭМ.<br>\r В качестве практической части по JS, добалена форма, с помощью которой можно<br> отредактировать информацию о путешественнике.<br>\r К сайту подключены шрифты, также шрифты сглажены.<br>\r Верстка адаптивная.<br>\r Страница сверстана по макету из «Фигмы» [Ссылка на макет](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1).<br>\r [Ссылка на публикацию на GitHub Pages](https://natalycherkasova.github.io/mesto/)",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NatalyCherkasova/mesto.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NatalyCherkasova/mesto/issues"
+  },
+  "homepage": "https://github.com/NatalyCherkasova/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "autoprefixer": "^10.4.8",
+    "babel-loader": "^8.2.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.1",
+    "cssnano": "^5.1.12",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "postcss-loader": "^7.0.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.3"
+  },
+  "dependencies": {
+    "core-js": "^3.24.1"
+  }
+}

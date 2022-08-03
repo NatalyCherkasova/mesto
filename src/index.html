@@ -7,19 +7,19 @@
   <meta name="description" content="о путешествиях">
   <meta name="keywords" content="путешествия, новые места, новости в мире путешествий">
   <meta name="author" content="Nataly Cherkasova">
-  <link rel="stylesheet" href="index.css">
+  <!-- <link rel="stylesheet" href="index.css"> -->
   <title>Место</title>
 </head>
 
 <body class="page">
   <div class="root">
     <header class="header">
-      <img class="header__logo" src="images/Logo.svg" alt="Логотип">
+      <img class="header__logo" src="<%=require('./images/Logo.svg')%>" alt="Логотип">
     </header>
 
     <main class="content">
       <section class="profile">
-        <img class="profile__avatar" src="images/avatar.png" alt="Аватар_фото">
+        <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватар_фото">
         <div class="profile__info">
           <div class="profile__name-cover">
             <h1 class="profile__text profile__text_type_name">Жак-Ив Кусто</h1>
@@ -119,10 +119,10 @@
       </li>
     </template>
   </div>
-  <script src="pages/index.js" type="module" ></script>
-  <script src="components/Card.js" type="module" ></script>
+  <script src="./../dist/main.js" type="module" defer></script>
+  <!-- <script src="components/Card.js" type="module" ></script>
   <script src="components/FormValidator.js" type="module" ></script>
-  <script src="components/Section.js" type="module" ></script>
+  <script src="components/Section.js" type="module" ></script> -->
 </body>
 
 </html>
