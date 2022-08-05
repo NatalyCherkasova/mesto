@@ -23,6 +23,11 @@ module.exports = {
 
   module: {
     rules: [ // rules — это массив правил
+      {
+        test: /\.js$/,
+        enforce: "pre",
+        use: ["source-map-loader"],
+      },
       // добавим в него объект правил для бабеля
       {
         // регулярное выражение, которое ищет все js файлы

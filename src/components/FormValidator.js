@@ -77,15 +77,15 @@ class FormValidator {
 }
 
   enableValidation() {
-    this._formList = Array.from(document.querySelectorAll(this._formSelector));
-    this._formList.forEach((popupElement) => {
-      popupElement.addEventListener('submit', (evt) => {
+    // this._formList = Array.from(document.querySelectorAll(this._formSelector));
+    // this._formList.forEach((popupElement) => {
+      this._popupElement.addEventListener('submit', (evt) => {
         evt.preventDefault();
       });
 
-      this._setEventListeners(popupElement);
-    });
+      this._setEventListeners(this._popupElement);
+    };
   }
-}
+
 
 export default FormValidator;
