@@ -21,6 +21,8 @@ module.exports = {
     open: true // сайт будет открываться сам при запуске npm run dev
   },
 
+  devtool: 'eval-source-map',
+
   module: {
     rules: [ // rules — это массив правил
       {

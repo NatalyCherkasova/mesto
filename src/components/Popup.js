@@ -34,10 +34,6 @@ export default class Popup {
       this._handleOverlayClose(e);
     });
 
-    document.addEventListener('keydown', (e) => {
-      this._handleEscClose(e);
-  });
-
     popupCloseButton.addEventListener('click', () => {
       this.close();
     });
