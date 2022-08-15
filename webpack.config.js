@@ -24,7 +24,7 @@ module.exports = {
   devtool: 'eval-source-map',
 
   module: {
-    rules: [ // rules — это массив правил
+    rules: [
       {
         test: /\.js$/,
         enforce: "pre",

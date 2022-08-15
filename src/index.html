@@ -18,13 +18,18 @@
 
     <main class="content">
       <section class="profile">
-        <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватар_фото">
+        <div class="profile__avatar-cover">
+          <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватар_фото">
+          <div class="profile__avatar-load-button-cover">
+            <img class="profile__avatar-load-button" src="<%=require('./images/big_pancil.svg')%>" alt="Редактировать аватар">
+          </div>
+        </div>
         <div class="profile__info">
           <div class="profile__name-cover">
-            <h1 class="profile__text profile__text_type_name">Жак-Ив Кусто</h1>
+            <h1 class="profile__text profile__text_type_name"></h1>
             <button type="button" class="profile__edit-button"></button>
           </div>
-          <p class="profile__text profile__text_type_ocupation">Исследователь океана</p>
+          <p class="profile__text profile__text_type_ocupation"></p>
         </div>
         <button type="button" class="profile__add-button"></button>
       </section>
@@ -97,6 +102,34 @@
       </div>
     </div>
 
+    <div class="popup popup_type_avatar-form">
+      <div class="popup__content">
+        <button type="button" class="popup__close avatar-form-close"></button>
+        <h3 class="popup__title">Обновить аватар</h3>
+        <form class="popup__form avatar-form" name="avatar-form" novalidate>
+          <input
+            id="avatar-input"
+            type="url"
+            name="avatar-form-link"
+            placeholder="Ссылка на картинку"
+            class="popup__input popup__input_type_link"
+            required>
+          <span class="link-input-error popup__input-error"></span>
+          <button type="submit" class="popup__button popup__button_type_avatar-submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup popup_type_delete-card-form">
+      <div class="popup__content">
+        <button type="button" class="popup__close delete-card-form-close"></button>
+        <h3 class="popup__title popup__title_type_delete-card-form">Вы уверены?</h3>
+        <form class="popup__form deleting-form" name="deleting-form" novalidate>
+          <button type="submit" class="popup__button popup__button_type_deleting-submit">Да</button>
+        </form>
+      </div>
+    </div>
+
     <div class="popup popup_type_picture">
       <div class="popup__picture-cover">
         <button type="button" class="popup__close picture-close"></button>
@@ -109,11 +142,14 @@
 
     <template class="elements-template elements-template_type_default">
       <li class="element">
-        <img class="element__image" src="images/nothingAdded.png" alt="Ничего не загружено">
+        <img id="" class="element__image" src="images/nothingAdded.png" alt="Ничего не загружено">
         <button type="button" class="element__basket"></button>
         <div class="element__caption">
           <h2 class="element__title"></h2>
-          <button type="button" class="element__like"></button>
+          <div class="element__like-wraper">
+            <button type="button" class="element__like"></button>
+            <span class="element__like-number">0</span>
+          </div>
         </div>
       </li>
     </template>

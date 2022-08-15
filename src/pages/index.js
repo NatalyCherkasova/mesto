@@ -5,19 +5,20 @@ import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from '../components/Api.js';
+import PopupWithDeleteForm from '../components/PopupWithDeleteForm.js';
 
 import {
   nameFieldElement, occupationFieldElement, profileButtonEdit, newCardButton,
-  popupProfileForm, popupAddingForm, cardFormElement, selectors,
-  initialCards
+  popupProfileForm, popupAddingForm, cardFormElement, selectors
 } from '../utils/constants.js';
 
+export const api = new Api('https://mesto.nomoreparties.co/v1/cohort-47', 'e113d756-181d-4d20-b2e1-8221892630a4');
+export let userId;
 
 function renderCard(item, popupSelector) {
-  const card = new Card(item, popupSelector, handleCardCklick);
-
-  const cardElement = card.generateCard();
-  cardsSection.addItem(cardElement);
+  const card = new Card(item, popupSelector, handleCardCklick, handleDeleteCard);
+  return card.generateCard();
 }
 
 ////////////////////      Валидация форм    /////////////////////////////
@@ -30,14 +31,16 @@ validationCard.enableValidation();
 
 ////// Отрисовка первоначального массива карточек  ////////////////////////
 
-const cardsSection = new Section({
-  data: initialCards,
-  renderer: (item) => {
-    renderCard(item, '.elements-template_type_default');
-  }
-}, '.elements__grid');
+const cardsSection = new Section(
+  (item) => {
+    return renderCard(item, '.elements-template_type_default');
 
-cardsSection.renderItems();
+  }, '.elements__grid');
+
+api.getInitialCards()
+  .then((initialCards) => {
+    cardsSection.renderItems(initialCards);
+  });
 
 //////////////  Обработка увеличенной карточки  ///////////////////////////
 
@@ -57,7 +60,11 @@ const popupWithAddForm = new PopupWithForm({
       link: cardData['adding-form-link']
     };
 
-    renderCard(currentData, '.elements-template_type_default');
+    api.addNewCard(currentData)
+      .then((data) => {
+        cardsSection.renderItems([data]);
+      });
+
     popupWithAddForm.close();
   }
 });
@@ -73,6 +80,14 @@ newCardButton.addEventListener('click', function () {
 
 ///////  Обработка формы добавления информации о путешественнике  ///////
 
+api.getProfileInfo()
+  .then((userData) => {
+    document.querySelector('.profile__text_type_name').textContent = userData.name;
+    document.querySelector('.profile__text_type_ocupation').textContent = userData.about;
+    document.querySelector('.profile__avatar').src = userData.avatar;
+    userId = userData._id;
+  });
+
 const userInfo = new UserInfo('.profile__text_type_name', '.profile__text_type_ocupation');
 const popupWithProfileForm = new PopupWithForm({
   popupSelector: '.popup_type_profile-form',
@@ -82,6 +97,8 @@ const popupWithProfileForm = new PopupWithForm({
       name: cardData['profile-form-name'],
       description: cardData['profile-form-ocupation']
     };
+
+    api.setProfileInfo(currentData);
 
     userInfo.setUserInfo(currentData);
 
@@ -99,3 +116,27 @@ profileButtonEdit.addEventListener('click', function () {
   popupWithProfileForm.open();
 });
 
+/////////////////////  Обработка лайков  /////////////////////////////
+
+
+/////////////////////  Удаление карточек  ////////////////////////////
+
+
+
+const delitingForm = new PopupWithDeleteForm('.popup_type_delete-card-form', handlerDeleteCard);
+
+function handleDeleteCard(cardElement, currentCardId) {
+  delitingForm.open(cardElement, currentCardId);
+}
+
+function handlerDeleteCard(cardElement, currentCardId) {
+  api.deleteCard(currentCardId)
+  .then(() => {
+    cardElement.remove();
+    cardElement = null;
+  })
+  .catch((err) =>
+    console.log(err));
+}
+
+delitingForm.setEventListeners();
