@@ -16,6 +16,7 @@
 @import url(/src/blocks/profile/__avatar-cover/profile__avatar-cover.css);
 @import url(/src/blocks/profile/__avatar-load-button/profile__avatar-load-button.css);
 @import url(/src/blocks/profile/__avatar-load-button-cover/profile__avatar-load-button-cover.css);
+@import url(/src/blocks/profile/__avatar-load-button-cover/_visible/profile__avatar-load-button-cover_visible.css);
 @import url(/src/blocks/elements/__grid/elements__grid.css);
 @import url(/src/blocks/element/__image/element__image.css);
 @import url(/src/blocks/element/element.css);

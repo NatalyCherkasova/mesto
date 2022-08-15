@@ -7,8 +7,10 @@ const newCardButton = document.querySelector('.profile__add-button');
 
 const popupProfileForm = document.querySelector('.popup_type_profile-form');
 const popupAddingForm = document.querySelector('.popup_type_adding-form');
+const popupAvatarForm = document.querySelector('.popup_type_avatar-form');
 
 const cardFormElement = document.querySelector('.adding-form');
+const avatarFormElement = document.querySelector('.avatar-form');
 
 const popupCloseButton = document.querySelector('.popup__close');
 
@@ -24,7 +26,7 @@ const selectors = {
 
 export {
   nameFieldElement, occupationFieldElement, profileButtonEdit,
-  newCardButton, popupProfileForm, popupAddingForm,
-  cardFormElement, popupCloseButton, selectors
+  newCardButton, popupProfileForm, popupAddingForm, popupAvatarForm,
+  cardFormElement, avatarFormElement, popupCloseButton, selectors
 };
 

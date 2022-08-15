@@ -10,7 +10,7 @@ import PopupWithDeleteForm from '../components/PopupWithDeleteForm.js';
 
 import {
   nameFieldElement, occupationFieldElement, profileButtonEdit, newCardButton,
-  popupProfileForm, popupAddingForm, cardFormElement, selectors
+  popupProfileForm, popupAddingForm, popupAvatarForm, cardFormElement, avatarFormElement, selectors
 } from '../utils/constants.js';
 
 export const api = new Api('https://mesto.nomoreparties.co/v1/cohort-47', 'e113d756-181d-4d20-b2e1-8221892630a4');
@@ -28,6 +28,9 @@ validationProfile.enableValidation();
 
 const validationCard = new FormValidator(selectors, popupAddingForm);
 validationCard.enableValidation();
+
+const validationAvatar = new FormValidator(selectors, popupAvatarForm);
+validationAvatar.enableValidation();
 
 ////// Отрисовка первоначального массива карточек  ////////////////////////
 
@@ -140,3 +143,44 @@ function handlerDeleteCard(cardElement, currentCardId) {
 }
 
 delitingForm.setEventListeners();
+
+/////////////////////  Редактирование аватара  ////////////////////////////
+
+document.querySelector('.profile__avatar').addEventListener('mouseover', function () {
+  document.querySelector('.profile__avatar-load-button-cover')
+  .classList.add('profile__avatar-load-button-cover_visible');
+});
+
+document.querySelector('.profile__avatar').addEventListener('mouseout', function () {
+  document.querySelector('.profile__avatar-load-button-cover')
+  .classList.remove('profile__avatar-load-button-cover_visible');
+});
+
+const popupWithAvatarForm = new PopupWithForm({
+  popupSelector: '.popup_type_avatar-form',
+  handleFormSubmit: (cardData) => {
+
+    console.log(cardData);
+
+    const currentData = {
+      link: cardData['avatar-form-link']
+    };
+    console.log(currentData);
+    api.setAvatar(currentData)
+      .then((data) => {
+        document.querySelector('.profile__avatar').src = data.avatar;
+      });
+
+      popupWithAvatarForm.close();
+  }
+});
+
+popupWithAvatarForm.setEventListeners();
+
+document.querySelector('.profile__avatar-load-button').addEventListener('click', function () {
+  validationAvatar.resetValidation();
+  avatarFormElement.reset();
+  popupWithAvatarForm.open();
+  validationAvatar.toggleButtonState();
+});
+

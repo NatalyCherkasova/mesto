@@ -2,4 +2,10 @@
   position: absolute;
   top: 47px;
   left: 47px;
+  transition: opacity 4s ease-in linear;
+}
+
+.profile__avatar-load-button:hover {
+    opacity: 0.6;
+    cursor: pointer;
 }

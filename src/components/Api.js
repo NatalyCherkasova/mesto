@@ -93,6 +93,20 @@ class Api {
     })
       .then(this._getJsonOrError);
   }
+
+  setAvatar(data) {
+    return fetch(`${this._host}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        avatar: data.link
+      })
+    })
+      .then(this._getJsonOrError);
+  }
 }
 
 export default Api;
