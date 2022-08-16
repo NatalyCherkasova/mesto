@@ -7,10 +7,6 @@ export default class PopupWithDeleteForm extends Popup {
     this._cardForm = this._popup.querySelector('.popup__form');
   }
 
-  setConfirmHandler(handler) {
-    this.confirmHandler = handler;
-  }
-
   open(cardElement, cardId) {
     this._cardElement = cardElement;
     this._cardId = cardId;
