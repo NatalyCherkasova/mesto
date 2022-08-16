@@ -43,7 +43,9 @@ const cardsSection = new Section(
 api.getInitialCards()
   .then((initialCards) => {
     cardsSection.renderItems(initialCards);
-  });
+  })
+  .catch((err) =>
+    console.log(err));
 
 //////////////  Обработка увеличенной карточки  ///////////////////////////
 
@@ -62,10 +64,15 @@ const popupWithAddForm = new PopupWithForm({
       name: cardData['adding-form-title'],
       link: cardData['adding-form-link']
     };
-
+    popupWithAddForm.handleLoading(true, 'Сохранение...');
     api.addNewCard(currentData)
       .then((data) => {
         cardsSection.renderItems([data]);
+      })
+      .catch((err) =>
+        console.log(err))
+      .finally(() => {
+        popupWithAddForm.handleLoading(true, 'Сохранить');
       });
 
     popupWithAddForm.close();
@@ -100,12 +107,16 @@ const popupWithProfileForm = new PopupWithForm({
       name: cardData['profile-form-name'],
       description: cardData['profile-form-ocupation']
     };
-
-    api.setProfileInfo(currentData);
+    popupWithProfileForm.handleLoading(true, 'Сохранение...');
+    api.setProfileInfo(currentData)
+      .catch((err) =>
+        console.log(err))
+      .finally(() => {
+        popupWithProfileForm.handleLoading(true, 'Сохранить');
+        popupWithProfileForm.close();
+      });
 
     userInfo.setUserInfo(currentData);
-
-    popupWithProfileForm.close();
   }
 });
 
@@ -124,8 +135,6 @@ profileButtonEdit.addEventListener('click', function () {
 
 /////////////////////  Удаление карточек  ////////////////////////////
 
-
-
 const delitingForm = new PopupWithDeleteForm('.popup_type_delete-card-form', handlerDeleteCard);
 
 function handleDeleteCard(cardElement, currentCardId) {
@@ -133,45 +142,41 @@ function handleDeleteCard(cardElement, currentCardId) {
 }
 
 function handlerDeleteCard(cardElement, currentCardId) {
+
   api.deleteCard(currentCardId)
-  .then(() => {
-    cardElement.remove();
-    cardElement = null;
-  })
-  .catch((err) =>
-    console.log(err));
+    .then(() => {
+      cardElement.remove();
+      cardElement = null;
+      delitingForm.close();
+    })
+    .catch((err) =>
+      console.log(err));
 }
 
 delitingForm.setEventListeners();
 
 /////////////////////  Редактирование аватара  ////////////////////////////
 
-document.querySelector('.profile__avatar').addEventListener('mouseover', function () {
-  document.querySelector('.profile__avatar-load-button-cover')
-  .classList.add('profile__avatar-load-button-cover_visible');
-});
-
-document.querySelector('.profile__avatar').addEventListener('mouseout', function () {
-  document.querySelector('.profile__avatar-load-button-cover')
-  .classList.remove('profile__avatar-load-button-cover_visible');
-});
-
 const popupWithAvatarForm = new PopupWithForm({
   popupSelector: '.popup_type_avatar-form',
   handleFormSubmit: (cardData) => {
 
-    console.log(cardData);
-
     const currentData = {
       link: cardData['avatar-form-link']
     };
-    console.log(currentData);
+
+    popupWithAvatarForm.handleLoading(true, 'Сохранение...');
     api.setAvatar(currentData)
       .then((data) => {
         document.querySelector('.profile__avatar').src = data.avatar;
+      })
+      .catch((err) =>
+        console.log(err))
+      .finally(() => {
+        popupWithAvatarForm.handleLoading(true, 'Сохранить');
       });
 
-      popupWithAvatarForm.close();
+    popupWithAvatarForm.close();
   }
 });
 

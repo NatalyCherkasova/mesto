@@ -3,6 +3,7 @@
   top: 47px;
   left: 47px;
   transition: opacity 4s ease-in linear;
+  z-index: 1;
 }
 
 .profile__avatar-load-button:hover {
