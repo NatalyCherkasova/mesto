@@ -14,7 +14,7 @@ import {
 } from '../utils/constants.js';
 
 export const api = new Api('https://mesto.nomoreparties.co/v1/cohort-47', 'e113d756-181d-4d20-b2e1-8221892630a4');
-export let userId;
+// export let userId;
 
 function renderCard(item, popupSelector) {
   const card = new Card(item, popupSelector, handleCardCklick, handleDeleteCard,
@@ -41,16 +41,39 @@ const cardsSection = new Section(
 
   }, '.elements__grid');
 
-Promise.all([
-  api.getInitialCards(),
-  api.getProfileInfo()
-]).then(([initialCards, userData]) => {
-  cardsSection.renderItems(initialCards);
-  userInfo.setUserInfo(userData);
-  userInfo.setUserAvatar(userData);
-})
-  .catch((err) =>
-    console.log(err));
+// Promise.all([
+//   api.getInitialCards(),
+//   api.getProfileInfo()
+// ]).then(([initialCards, userData]) => {
+//   cardsSection.renderItems(initialCards);
+//   userInfo.setUserInfo(userData);
+//   userInfo.setUserAvatar(userData);
+// })
+//   .catch((err) =>
+//     console.log(err));
+
+
+const req = new Promise(function (resolve, reject) {
+  if (resolve) {
+    api.getProfileInfo()
+      .then((userData) => {
+        userInfo.setUserInfo(userData);
+        userInfo.setUserAvatar(userData);
+      });
+    resolve();
+  } else {
+    reject();
+  }
+});
+
+req.then(() => {
+  api.getInitialCards()
+    .then((initialCards) => {
+      cardsSection.renderItems(initialCards);
+    })
+    .catch((err) =>
+      console.log(err));
+});
 
 
 //////////////  Обработка увеличенной карточки  ///////////////////////////
