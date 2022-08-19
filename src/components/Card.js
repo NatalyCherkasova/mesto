@@ -1,17 +1,18 @@
-import {api, userId} from '../pages/index.js';
 class Card {
-  constructor(data, cardSelector, handleCardCklick, handleDeleteCard) {
+  constructor(data, cardSelector, handleCardCklick, handleDeleteCard, handleAddLikeCard, handleDeleteLikeCard, userId) {
     this._name = data.name;
     this._link = data.link;
     this._cardId = data._id;
     this._cardSelector = cardSelector;
     this._handleCardCklick = handleCardCklick;
     this._handleDeleteCard = handleDeleteCard;
+    this._handleAddLikeCard = handleAddLikeCard;
+    this._handleDeleteLikeCard = handleDeleteLikeCard;
     this._likeNumber = data.likes.length;
-    this._isLike = data.likes.some(function(item) {
+    this._isLiked = data.likes.some(function(item) {
       return item._id === userId;
   });
-    this._itsMyCard = data.owner._id === userId;
+    this._ownCard = data.owner._id === userId;
   }
 
   _getTemplate() {
@@ -24,23 +25,30 @@ class Card {
 
   generateCard() {
     this._element = this._getTemplate();
+    this._elementImage = this._element.querySelector('.element__image');
+    this._elementTitle = this._element.querySelector('.element__title');
     this._setEventListeners();
 
-    this._element.querySelector('.element__image').src = this._link;
-    this._element.querySelector('.element__title').textContent = this._name;
-    this._element.querySelector('.element__title').alt = this._alt;
-    this._element.querySelector('.element__image').id = this._cardId;
+
+    this._elementImage.src = this._link;
+    this._elementTitle.textContent = this._name;
+    this._elementTitle.alt = this._alt;
+    this._elementImage.id = this._cardId;
     this._element.querySelector('.element__like-number').textContent = this._likeNumber;
-    if (this._isLike) {
+    if (this._isLiked) {
       this._element.querySelector('.element__like').classList.toggle('element__like_active');
     }
 
-    if (!this._itsMyCard) {
+    if (!this._ownCard) {
       this._element.querySelector('.element__basket').style.display = "none";
     }
 
   // Вернём элемент наружу
     return this._element;
+  }
+
+  getCardId() {
+    return this._cardId;
   }
 
   _setEventListeners() {
@@ -50,10 +58,10 @@ class Card {
     });
 
     this._element.querySelector('.element__basket').addEventListener('click', () => {
-      this._handleDeleteCard(this._element, this._cardId);
+      this._handleDeleteCard(this);
     });
 
-    this._element.querySelector('.element__image').addEventListener('click', () => {
+    this._elementImage.addEventListener('click', () => {
       this._handleCardCklick(this._name, this._link, this._alt);
     });
 
@@ -63,24 +71,21 @@ class Card {
     this._element.querySelector('.element__like').classList.toggle('element__like_active');
   }
 
+  deleteCardElement() {
+    this._element.remove();
+    this._element = null;
+  }
+
   _handleLikeCounter() {
-    const counterElement= this._element.querySelector('.element__like-number');
+    const counterLikesElement= this._element.querySelector('.element__like-number');
 
     if (this._element.querySelector('.element__like').classList.contains('element__like_active')) {
-      this._isLike = true;
-      api.addLikeCard(this._cardId)
-      .then((data) => {
-        this._likeNumber = data.likes.length;
-        counterElement.textContent = this._likeNumber;
-      });
+      this._isLiked = true;
+      this._handleAddLikeCard(counterLikesElement, this._cardId);
     }
     else {
-      this._isLike = false;
-      api.deleteLikeCard(this._cardId)
-      .then((data) => {
-        this._likeNumber = data.likes.length;
-        counterElement.textContent = this._likeNumber;
-      });
+      this._isLiked = false;
+      this._handleDeleteLikeCard(counterLikesElement, this._cardId);
     }
 
   }

@@ -17,7 +17,8 @@ export const api = new Api('https://mesto.nomoreparties.co/v1/cohort-47', 'e113d
 export let userId;
 
 function renderCard(item, popupSelector) {
-  const card = new Card(item, popupSelector, handleCardCklick, handleDeleteCard);
+  const card = new Card(item, popupSelector, handleCardCklick, handleDeleteCard,
+    handleAddLikeCard, handleDeleteLikeCard, userInfo.userId);
   return card.generateCard();
 }
 
@@ -40,19 +41,27 @@ const cardsSection = new Section(
 
   }, '.elements__grid');
 
-api.getInitialCards()
-  .then((initialCards) => {
-    cardsSection.renderItems(initialCards);
-  })
+Promise.all([
+  api.getInitialCards(),
+  api.getProfileInfo()
+]).then(([initialCards, userData]) => {
+  cardsSection.renderItems(initialCards);
+  userInfo.setUserInfo(userData);
+  userInfo.setUserAvatar(userData);
+})
   .catch((err) =>
     console.log(err));
+
 
 //////////////  Обработка увеличенной карточки  ///////////////////////////
 
 const popupWithImage = new PopupWithImage('.popup_type_picture');
+
 function handleCardCklick(name, link) {
   popupWithImage.open(link, name);
 }
+
+popupWithImage.setEventListeners();
 
 ///////////   Обработка формы добавления карточки   //////////////////////
 
@@ -67,7 +76,7 @@ const popupWithAddForm = new PopupWithForm({
     popupWithAddForm.handleLoading(true, 'Сохранение...');
     api.addNewCard(currentData)
       .then((data) => {
-        cardsSection.renderItems([data]);
+        cardsSection.renderItem(data);
       })
       .catch((err) =>
         console.log(err))
@@ -90,22 +99,15 @@ newCardButton.addEventListener('click', function () {
 
 ///////  Обработка формы добавления информации о путешественнике  ///////
 
-api.getProfileInfo()
-  .then((userData) => {
-    document.querySelector('.profile__text_type_name').textContent = userData.name;
-    document.querySelector('.profile__text_type_ocupation').textContent = userData.about;
-    document.querySelector('.profile__avatar').src = userData.avatar;
-    userId = userData._id;
-  });
+const userInfo = new UserInfo('.profile__text_type_name', '.profile__text_type_ocupation', '.profile__avatar');
 
-const userInfo = new UserInfo('.profile__text_type_name', '.profile__text_type_ocupation');
 const popupWithProfileForm = new PopupWithForm({
   popupSelector: '.popup_type_profile-form',
   handleFormSubmit: (cardData) => {
 
     const currentData = {
       name: cardData['profile-form-name'],
-      description: cardData['profile-form-ocupation']
+      about: cardData['profile-form-ocupation']
     };
     popupWithProfileForm.handleLoading(true, 'Сохранение...');
     api.setProfileInfo(currentData)
@@ -113,10 +115,10 @@ const popupWithProfileForm = new PopupWithForm({
         console.log(err))
       .finally(() => {
         popupWithProfileForm.handleLoading(true, 'Сохранить');
-        popupWithProfileForm.close();
       });
 
     userInfo.setUserInfo(currentData);
+    popupWithProfileForm.close();
   }
 });
 
@@ -126,27 +128,44 @@ profileButtonEdit.addEventListener('click', function () {
   validationProfile.resetValidation();
   const userProfile = userInfo.getUserInfo();
   nameFieldElement.value = userProfile.name;
-  occupationFieldElement.value = userProfile.description;
+  occupationFieldElement.value = userProfile.about;
   popupWithProfileForm.open();
 });
 
 /////////////////////  Обработка лайков  /////////////////////////////
 
+function handleAddLikeCard(counterLikesElement, currentCardId) {
+  api.addLikeCard(currentCardId)
+    .then((data) => {
+      this._likeNumber = data.likes.length;
+      counterLikesElement.textContent = this._likeNumber;
+    })
+    .catch((err) =>
+      console.log(err));
+}
+
+function handleDeleteLikeCard(counterLikesElement, currentCardId) {
+  api.deleteLikeCard(currentCardId)
+    .then((data) => {
+      this._likeNumber = data.likes.length;
+      counterLikesElement.textContent = this._likeNumber;
+    })
+    .catch((err) =>
+      console.log(err));
+}
 
 /////////////////////  Удаление карточек  ////////////////////////////
 
 const delitingForm = new PopupWithDeleteForm('.popup_type_delete-card-form', handlerDeleteCard);
 
-function handleDeleteCard(cardElement, currentCardId) {
-  delitingForm.open(cardElement, currentCardId);
+function handleDeleteCard(card) {
+  delitingForm.open(card);
 }
 
-function handlerDeleteCard(cardElement, currentCardId) {
-
-  api.deleteCard(currentCardId)
+function handlerDeleteCard(card) {
+  api.deleteCard(card.getCardId())
     .then(() => {
-      cardElement.remove();
-      cardElement = null;
+      card.deleteCardElement();
       delitingForm.close();
     })
     .catch((err) =>
