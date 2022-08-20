@@ -41,39 +41,40 @@ const cardsSection = new Section(
 
   }, '.elements__grid');
 
-// Promise.all([
-//   api.getInitialCards(),
-//   api.getProfileInfo()
-// ]).then(([initialCards, userData]) => {
-//   cardsSection.renderItems(initialCards);
-//   userInfo.setUserInfo(userData);
-//   userInfo.setUserAvatar(userData);
-// })
-//   .catch((err) =>
-//     console.log(err));
-
-
-const req = new Promise(function (resolve, reject) {
-  if (resolve) {
-    api.getProfileInfo()
-      .then((userData) => {
-        userInfo.setUserInfo(userData);
-        userInfo.setUserAvatar(userData);
-      });
-    resolve();
-  } else {
-    reject();
-  }
-});
-
-req.then(() => {
+Promise.all([
+  api.getProfileInfo(),
   api.getInitialCards()
-    .then((initialCards) => {
-      cardsSection.renderItems(initialCards);
-    })
-    .catch((err) =>
-      console.log(err));
-});
+]).then(([userData, initialCards]) => {
+  userInfo.setUserInfo(userData);
+  userInfo.setUserAvatar(userData);
+  cardsSection.renderItems(initialCards);
+})
+  .catch((err) =>
+    console.log(err));
+
+//(просто у меня изначально лайк не закрашивался с Promise.all, не могла понять почему,
+// поменяла местами вызовы, теперь все ok)))))
+// const req = new Promise(function (resolve, reject) {
+//   if (resolve) {
+//     api.getProfileInfo()
+//       .then((userData) => {
+//         userInfo.setUserInfo(userData);
+//         userInfo.setUserAvatar(userData);
+//       });
+//     resolve();
+//   } else {
+//     reject();
+//   }
+// });
+
+// req.then(() => {
+//   api.getInitialCards()
+//     .then((initialCards) => {
+//       cardsSection.renderItems(initialCards);
+//     })
+//     .catch((err) =>
+//       console.log(err));
+// });
 
 
 //////////////  Обработка увеличенной карточки  ///////////////////////////
@@ -160,8 +161,8 @@ profileButtonEdit.addEventListener('click', function () {
 function handleAddLikeCard(counterLikesElement, currentCardId) {
   api.addLikeCard(currentCardId)
     .then((data) => {
-      this._likeNumber = data.likes.length;
-      counterLikesElement.textContent = this._likeNumber;
+      const likeNumber = data.likes.length;
+      counterLikesElement.textContent = likeNumber;
     })
     .catch((err) =>
       console.log(err));
@@ -170,8 +171,8 @@ function handleAddLikeCard(counterLikesElement, currentCardId) {
 function handleDeleteLikeCard(counterLikesElement, currentCardId) {
   api.deleteLikeCard(currentCardId)
     .then((data) => {
-      this._likeNumber = data.likes.length;
-      counterLikesElement.textContent = this._likeNumber;
+      const likeNumber = data.likes.length;
+      counterLikesElement.textContent = likeNumber;
     })
     .catch((err) =>
       console.log(err));
@@ -210,7 +211,7 @@ const popupWithAvatarForm = new PopupWithForm({
     popupWithAvatarForm.handleLoading(true, 'Сохранение...');
     api.setAvatar(currentData)
       .then((data) => {
-        document.querySelector('.profile__avatar').src = data.avatar;
+        userInfo.setUserAvatar(data);
       })
       .catch((err) =>
         console.log(err))
