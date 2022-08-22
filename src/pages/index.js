@@ -13,8 +13,7 @@ import {
   popupProfileForm, popupAddingForm, popupAvatarForm, cardFormElement, avatarFormElement, selectors
 } from '../utils/constants.js';
 
-export const api = new Api('https://mesto.nomoreparties.co/v1/cohort-47', 'e113d756-181d-4d20-b2e1-8221892630a4');
-// export let userId;
+const api = new Api('https://mesto.nomoreparties.co/v1/cohort-47', 'e113d756-181d-4d20-b2e1-8221892630a4');
 
 function renderCard(item, popupSelector) {
   const card = new Card(item, popupSelector, handleCardCklick, handleDeleteCard,
@@ -101,14 +100,13 @@ const popupWithAddForm = new PopupWithForm({
     api.addNewCard(currentData)
       .then((data) => {
         cardsSection.renderItem(data);
+        popupWithAddForm.close();
       })
       .catch((err) =>
         console.log(err))
       .finally(() => {
         popupWithAddForm.handleLoading(true, 'Сохранить');
       });
-
-    popupWithAddForm.close();
   }
 });
 
@@ -135,14 +133,15 @@ const popupWithProfileForm = new PopupWithForm({
     };
     popupWithProfileForm.handleLoading(true, 'Сохранение...');
     api.setProfileInfo(currentData)
+    .then((data) => {
+      userInfo.setUserInfo(data);
+      popupWithProfileForm.close();
+    })
       .catch((err) =>
         console.log(err))
       .finally(() => {
         popupWithProfileForm.handleLoading(true, 'Сохранить');
       });
-
-    userInfo.setUserInfo(currentData);
-    popupWithProfileForm.close();
   }
 });
 
