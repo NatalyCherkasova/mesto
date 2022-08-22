@@ -51,8 +51,7 @@ Promise.all([
   .catch((err) =>
     console.log(err));
 
-//(просто у меня изначально лайк не закрашивался с Promise.all, не могла понять почему,
-// поменяла местами вызовы, теперь все ok)))))
+//(для себя)))))
 // const req = new Promise(function (resolve, reject) {
 //   if (resolve) {
 //     api.getProfileInfo()

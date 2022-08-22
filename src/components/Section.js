@@ -1,5 +1,3 @@
-import Card from "./Card.js";
-
 export default class Section {
   constructor(renderer, containerSelector) {
     this._renderer = renderer;
@@ -17,8 +15,7 @@ export default class Section {
   }
 
   renderItems(data) {
-    data = data.reverse();
-    data.forEach(item => {
+    data.reverse().forEach(item => {
       this.addItem(this._renderer(item));
     });
   }
