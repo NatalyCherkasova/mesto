@@ -230,3 +230,12 @@ document.querySelector('.profile__avatar-load-button').addEventListener('click',
   validationAvatar.toggleButtonState();
 });
 
+/////////thanks for your patience//////////////
+
+////// __000000___00000
+////// _00000000_0000000
+////// _0000000000000000
+////// __00000000000000
+////// ____00000000000
+////// _______00000
+////// _________0
