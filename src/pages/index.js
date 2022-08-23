@@ -210,20 +210,19 @@ const popupWithAvatarForm = new PopupWithForm({
     api.setAvatar(currentData)
       .then((data) => {
         userInfo.setUserAvatar(data);
+        popupWithAvatarForm.close();
       })
       .catch((err) =>
         console.log(err))
       .finally(() => {
         popupWithAvatarForm.handleLoading(true, 'Сохранить');
       });
-
-    popupWithAvatarForm.close();
   }
 });
 
 popupWithAvatarForm.setEventListeners();
 
-document.querySelector('.profile__avatar-load-button').addEventListener('click', function () {
+document.querySelector('.profile__avatar-cover').addEventListener('click', function () {
   validationAvatar.resetValidation();
   avatarFormElement.reset();
   popupWithAvatarForm.open();
